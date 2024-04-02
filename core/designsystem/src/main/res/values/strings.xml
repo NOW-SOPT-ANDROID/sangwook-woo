@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">designsystem</string>
+
+    <string name="login_title">Welcome To Sopt</string>
+    <string name="login_id">id</string>
+    <string name="login_pw">pw</string>
+    <string name="login_login">LOGIN</string>
+    <string name="login_signup">SIGN UP</string>
+    <string name="login_signup_success">"회원가입 성공"</string>
+    <string name="login_not_registered">회원가입 먼저하셈</string>
+    <string name="login_login_fail">로그인 실패</string>
+
+    <string name="main_id">ID :</string>
+    <string name="main_pw">PW :</string>
+    <string name="main_hobby">HOBBY :</string>
+
+    <string name="signup_title">Sign Up</string>
+    <string name="signup_id">id</string>
+    <string name="signup_pw">pw</string>
+    <string name="signup_name">name</string>
+    <string name="signup_hobby">hobby</string>
+    <string name="signup_signup">SIGN UP</string>
+    <string name="signup_validid">아이디 6~10</string>
+    <string name="signup_validpw">비번 8~12</string>
+    <string name="signup_validname">이름 써라</string>
+    <string name="signup_validhobby">취미 써라</string>
+</resources>
