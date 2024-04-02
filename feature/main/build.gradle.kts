@@ -10,3 +10,9 @@ android {
         viewBinding = true
     }
 }
+dependencies {
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.constraintlayout)
+}
