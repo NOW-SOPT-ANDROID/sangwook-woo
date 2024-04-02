@@ -1,3 +1,4 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -20,8 +21,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NOW SOPT Android"
+rootProject.name = "NOW-SOPT-Android"
 include(":app")
 include(":feature:main")
 include(":core:ui")
 include(":core:model")
+include(":core:designsystem")

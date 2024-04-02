@@ -10,10 +10,17 @@ internal class FeaturePlugin : Plugin<Project> {
             with(pluginManager){
                 apply("sopt.android.library")
                 apply("sopt.android.hilt")
+                apply("kotlin-parcelize")
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
+                "implementation"(project(":core:ui"))
+                "implementation"(project(":core:model"))
+                "implementation"(project(":core:designsystem"))
+
+                "implementation"(libs.findBundle("orbit").get())
+
                 "implementation"(libs.findLibrary("appcompat").get())
                 "implementation"(libs.findLibrary("core.ktx").get())
                 "implementation"(libs.findLibrary("constraintlayout").get())
