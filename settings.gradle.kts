@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -20,4 +21,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "NOW SOPT Android"
-include ':app'
+include(":app")
+include(":feature:main")
+include(":core:ui")
+include(":core:model")
