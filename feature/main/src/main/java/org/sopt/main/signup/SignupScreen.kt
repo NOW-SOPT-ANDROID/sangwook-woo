@@ -38,7 +38,6 @@ fun SignupRoute(
     val state = viewModel.collectAsState().value
     val snackBarHostState = remember { SnackbarHostState() }
     val sideEffectFlow = viewModel.container.sideEffectFlow
-    val scope = rememberCoroutineScope()
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {

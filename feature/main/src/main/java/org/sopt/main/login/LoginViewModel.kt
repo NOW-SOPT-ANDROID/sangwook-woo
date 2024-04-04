@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
             when {
                 checkRegister() -> postSideEffect(LoginSideEffect.showSnackbar("회원가입 먼저하셈"))
                 matchesUserInfo(state.id, state.password) -> postSideEffect(LoginSideEffect.LoginSuccess(createUser()))
-                else -> postSideEffect(LoginSideEffect.showSnackbar("로그인 실패ㅁㄴ"))
+                else -> postSideEffect(LoginSideEffect.showSnackbar("로그인 실패"))
             }
         }
     }
