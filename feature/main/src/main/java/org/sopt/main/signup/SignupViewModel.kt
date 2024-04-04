@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.annotation.OrbitExperimental
+import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -53,7 +55,8 @@ class SignupViewModel @Inject constructor() : ContainerHost<SignupState, SignupS
     fun updateName(name: String) = updateState { copy(name = name) }
     fun updateHobby(hobby: String) = updateState { copy(hobby = hobby) }
 
-    private fun updateState(reducer: SignupState.() -> SignupState) = intent {
+    @OptIn(OrbitExperimental::class)
+    private fun updateState(reducer: SignupState.() -> SignupState) = blockingIntent {
         reduce { state.reducer() }
     }
 }

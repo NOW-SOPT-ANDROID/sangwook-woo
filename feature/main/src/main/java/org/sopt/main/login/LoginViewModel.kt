@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.annotation.OrbitExperimental
+import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -38,7 +40,8 @@ class LoginViewModel @Inject constructor(
     fun updateId(id: String) = updateState { copy(id = id) }
     fun updatePw(pw: String) = updateState { copy(password = pw) }
 
-    private fun updateState(reducer: LoginState.() -> LoginState) = intent {
+    @OptIn(OrbitExperimental::class)
+    private fun updateState(reducer: LoginState.() -> LoginState) = blockingIntent {
         reduce { state.reducer() }
     }
 
