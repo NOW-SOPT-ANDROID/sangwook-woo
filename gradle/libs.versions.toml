@@ -71,6 +71,8 @@ sopt-android-library = { id = "sopt.android.library", version = "unspecified" }
 sopt-android-hilt = { id = "sopt.android.hilt", version = "unspecified"}
 sopt-java-library = { id = "sopt.java.library", version = "unspecified" }
 sopt-plugin-feature = { id = "sopt.plugin.feature", version = "unspecified" }
+sopt-plugin-room = { id = "sopt.plugin.room", version = "unspecified" }
+sopt-plugin-data = { id = "sopt.plugin.data", version = "unspecified" }
 
 [libraries]
 # Dependencies of the included build-logic

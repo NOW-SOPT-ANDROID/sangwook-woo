@@ -41,5 +41,15 @@ gradlePlugin {
             id = "sopt.plugin.feature"
             implementationClass = "FeaturePlugin"
         }
+
+        register("RoomPlugin") {
+            id = "sopt.plugin.room"
+            implementationClass = "RoomPlugin"
+        }
+
+        register("DataPlugin") {
+            id = "sopt.plugin.data"
+            implementationClass = "DataPlugin"
+        }
     }
 }
