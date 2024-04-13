@@ -23,4 +23,5 @@ dependencies {
     implementation(libs.bundles.androidx.lifecycle)
     implementation(libs.bundles.coroutine)
     implementation(libs.bundles.androidx.navigation)
+    implementation(libs.bundles.orbit)
 }
