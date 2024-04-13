@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_24"
+        android:title="홈"
+        app:iconPadding="4dp" />
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_search_24"
+        android:title="검색"
+        app:iconPadding="4dp" />
+
+    <item
+        android:id="@+id/navigation_mypage"
+        android:icon="@drawable/ic_person_24"
+        android:title="마이페이지"
+        app:iconPadding="4dp"/>
+
+</menu>

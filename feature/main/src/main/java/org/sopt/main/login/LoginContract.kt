@@ -9,7 +9,13 @@ data class LoginState(
     val registeredPassword: String = "",
     val name: String = "",
     val hobby: String = ""
-)
+){
+    fun checkRegister() = registeredId.isBlank() || registeredPassword.isBlank()
+
+    fun matchesUserInfo(id: String, password: String) = registeredId == id && registeredPassword == password
+
+    fun createUser() = User(registeredId, registeredPassword, name, hobby)
+}
 
 sealed interface LoginSideEffect {
     data class showSnackbar(val message: String) : LoginSideEffect
