@@ -32,11 +32,6 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-    private fun LoginState.checkRegister() = registeredId.isBlank() || registeredPassword.isBlank()
-
-    private fun LoginState.matchesUserInfo(id: String, password: String) = registeredId == id && registeredPassword == password
-
-    private fun LoginState.createUser() = User(registeredId, registeredPassword, name, hobby)
 
     private fun getString(resId: Int) = resourceProvider.getString(resId)
 

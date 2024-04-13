@@ -11,6 +11,7 @@ import org.orbitmvi.orbit.viewmodel.container
 import org.sopt.main.model.User
 import org.sopt.designsystem.R
 import org.sopt.ui.context.ResourceProvider
+import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -56,8 +57,4 @@ class SignupViewModel @Inject constructor(
     fun updatePw(pw: String) = updateState { copy(password = pw) }
     fun updateName(name: String) = updateState { copy(name = name) }
     fun updateHobby(hobby: String) = updateState { copy(hobby = hobby) }
-
-    private fun updateState(reducer: SignupState.() -> SignupState) = intent {
-        reduce { state.reducer() }
-    }
 }
