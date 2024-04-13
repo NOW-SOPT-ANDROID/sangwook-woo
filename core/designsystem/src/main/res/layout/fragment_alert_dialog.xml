@@ -1,0 +1,53 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_alert_fragment_title"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="정말로 삭제하시겠습니까?" />
+
+    <Button
+        android:id="@+id/tv_alert_fragment_positive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="?colorPrimary"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_alert_fragment_title"
+        app:layout_constraintBottom_toTopOf="@id/v_alert_fragment"
+        tools:text="삭제" />
+
+    <TextView
+        android:id="@+id/tv_alert_fragment_negative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_alert_fragment_positive"
+        app:layout_constraintEnd_toStartOf="@id/tv_alert_fragment_positive"
+        app:layout_constraintTop_toTopOf="@id/tv_alert_fragment_positive"
+        tools:text="아니요" />
+
+    <View
+        android:id="@+id/v_alert_fragment"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
