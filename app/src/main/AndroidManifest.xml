@@ -17,18 +17,22 @@
             android:name="org.sopt.main.login.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
+
+        </activity>
+        <activity
+            android:name="org.sopt.main.signup.SignupActivity"
+            android:exported="true" >
+
+        </activity>
+        <activity
+            android:name="org.sopt.main.main.MainActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.sopt.main.signup.SignupActivity"
-            android:exported="false" />
-        <activity
-            android:name="org.sopt.main.main.MainActivity"
-            android:exported="false" />
     </application>
 
 </manifest>
