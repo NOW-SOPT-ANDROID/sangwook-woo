@@ -28,5 +28,12 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.core.model)
     implementation(projects.core.designsystem)
+    implementation(projects.core.database)
+    implementation(projects.core.common)
+    implementation(projects.core.data)
+    implementation(projects.core.domain)
     implementation(projects.feature.main)
+    implementation(projects.feature.home)
+    implementation(projects.feature.search)
+    implementation(projects.feature.mypage)
 }
