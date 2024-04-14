@@ -18,6 +18,7 @@ internal class FeaturePlugin : Plugin<Project> {
                 "implementation"(project(":core:ui"))
                 "implementation"(project(":core:model"))
                 "implementation"(project(":core:designsystem"))
+                "implementation"(project(":core:common"))
 
                 "implementation"(libs.findBundle("orbit").get())
 
