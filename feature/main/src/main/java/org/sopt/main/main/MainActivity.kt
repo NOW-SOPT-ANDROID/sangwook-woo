@@ -1,8 +1,9 @@
 package org.sopt.main.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,7 +13,8 @@ import org.orbitmvi.orbit.viewmodel.observe
 import org.sopt.main.R
 import org.sopt.main.const.IntentKey.USER_KEY
 import org.sopt.main.databinding.ActivityMainBinding
-import org.sopt.main.model.User
+import org.sopt.main.login.LoginActivity
+import org.sopt.main.model.UserModel
 import org.sopt.ui.base.BindingActivity
 import org.sopt.ui.intent.getParcelable
 
@@ -21,7 +23,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>({ ActivityMainBinding.
     private lateinit var navController: NavController
     private val viewModel by viewModels<MainViewModel>()
     val user by lazy {
-        intent.getParcelable(USER_KEY, User::class.java)
+        intent.getParcelable(USER_KEY, UserModel::class.java)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,4 +88,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>({ ActivityMainBinding.
         R.id.navigation_search to org.sopt.search.R.id.navigation_graph_search,
         R.id.navigation_mypage to org.sopt.mypage.R.id.navigation_graph_mypage,
     )
+
+    companion object {
+        @JvmStatic
+        fun newInstance(context: Context) = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+    }
 }
