@@ -1,22 +1,26 @@
 package org.sopt.main.signup
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import org.sopt.main.model.User
 import org.sopt.designsystem.R
+import org.sopt.domain.repo.UserDataRepository
+import org.sopt.main.model.UserModel
+import org.sopt.main.model.toUser
 import org.sopt.ui.context.ResourceProvider
 import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
 @HiltViewModel
 class SignupViewModel @Inject constructor(
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val userDataRepository: UserDataRepository,
 ) : ContainerHost<SignupState, SignupSideEffect>, ViewModel() {
     override val container: Container<SignupState, SignupSideEffect> = container(SignupState())
 
@@ -39,17 +43,26 @@ class SignupViewModel @Inject constructor(
             }
 
             else -> {
-                postSideEffect(
-                    SignupSideEffect.SignupSuccess(
-                        User(
-                            state.id,
-                            state.password,
-                            state.name,
-                            state.hobby
-                        )
+                setUserData(
+                    UserModel(
+                        state.id,
+                        state.password,
+                        state.name,
+                        state.hobby
                     )
                 )
             }
+        }
+    }
+
+    private fun setUserData(user: UserModel) = intent {
+        viewModelScope.launch {
+            runCatching { userDataRepository.setUserData(user.toUser()) }
+                .onSuccess {
+                    postSideEffect(
+                        SignupSideEffect.SignupSuccess
+                    )
+                }
         }
     }
 
