@@ -1,5 +1,7 @@
 package org.sopt.main.signup
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
 import org.sopt.main.const.IntentKey.USER_KEY
 import org.sopt.main.databinding.ActivitySignupBinding
+import org.sopt.main.login.LoginActivity
 import org.sopt.ui.context.snackBar
 
 @AndroidEntryPoint
@@ -45,15 +48,19 @@ class SignupActivity : AppCompatActivity() {
     private fun handleSideEffect(sideEffect: SignupSideEffect) {
         when (sideEffect) {
             is SignupSideEffect.SignupSuccess -> {
-                intent.putExtra(USER_KEY, sideEffect.user).apply {
-                    setResult(RESULT_OK, this)
-                }
                 finish()
             }
 
             is SignupSideEffect.showSnackbar -> {
                 snackBar(binding.root) { sideEffect.message }
             }
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(context: Context) = Intent(context, SignupActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
     }
 }
