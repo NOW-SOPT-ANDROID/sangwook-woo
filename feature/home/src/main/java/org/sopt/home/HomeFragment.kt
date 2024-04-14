@@ -42,6 +42,15 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>({ FragmentHomeBinding.
 
     private fun render(homeState: HomeState) {
         homeAdapter.submitList(homeState.friendList)
+        homeHeaderAdapter.submitList(
+            mutableListOf(
+                Friend(
+                    id = null,
+                    name = homeState.registeredName,
+                    hobby = homeState.registeredHobby
+                )
+            )
+        )
         viewModel.updateQuery(homeState.query)
     }
 
@@ -70,15 +79,6 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>({ FragmentHomeBinding.
             viewModel.showDeleteDialog(it.id)
         }
         homeHeaderAdapter = HomeHeaderAdapter()
-        homeHeaderAdapter.submitList(
-            mutableListOf(
-                Friend(
-                    id = null,
-                    name = "우상욱",
-                    hobby = "안드로이드"
-                )
-            )
-        )
         val combineAdapter = ConcatAdapter(homeHeaderAdapter, homeAdapter)
         binding.rvHome.adapter = combineAdapter
     }

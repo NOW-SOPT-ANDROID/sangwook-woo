@@ -5,6 +5,8 @@ import org.sopt.model.Friend
 data class HomeState(
     val friendList: List<Friend> = emptyList(),
     val query: String = "",
+    val registeredHobby: String = "",
+    val registeredName: String = "",
 )
 
 sealed interface HomeSideEffect{
