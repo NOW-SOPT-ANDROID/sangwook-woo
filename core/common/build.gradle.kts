@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.sopt.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.sopt.android.hilt)
+    alias(libs.plugins.sopt.android.test)
 }
 
 android {
@@ -10,6 +11,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.test.ext.junit)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
