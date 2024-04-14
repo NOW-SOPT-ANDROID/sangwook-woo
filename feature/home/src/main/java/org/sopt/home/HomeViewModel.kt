@@ -1,6 +1,5 @@
 package org.sopt.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +15,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import org.sopt.domain.repo.SoptRepository
 import org.sopt.domain.usecase.GetSoptUseCase
+import org.sopt.domain.usecase.GetUserDataUseCase
 import org.sopt.model.Friend
 import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
@@ -24,20 +24,34 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getSoptUseCase: GetSoptUseCase,
+    private val getUserDataUseCase: GetUserDataUseCase,
     private val soptRepository: SoptRepository,
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
 
 
     init {
+        getUserData()
         observeGetSopt()
-
         viewModelScope.launch {
             container.stateFlow.debounce(300)
                 .filter { it.query.isNotEmpty() || it.query.isBlank() }
                 .collect {
                     observeGetSopt()
                 }
+        }
+    }
+
+    fun getUserData() = intent {
+        viewModelScope.launch {
+            getUserDataUseCase().collect {
+                reduce {
+                    state.copy(
+                        registeredHobby = it.hobby,
+                        registeredName = it.name,
+                    )
+                }
+            }
         }
     }
 
@@ -62,7 +76,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun showDeleteDialog(id: Int?) = intent {
-        Log.e("이벤트", id.toString())
         if (id != null) {
             postSideEffect(HomeSideEffect.showDeleteDialog(id))
         }

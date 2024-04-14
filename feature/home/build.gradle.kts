@@ -11,7 +11,6 @@ android {
     }
 }
 dependencies {
-    implementation(projects.core.data)
     implementation(projects.core.domain)
     implementation(libs.appcompat)
     implementation(libs.material)
