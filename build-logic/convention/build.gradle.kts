@@ -51,5 +51,15 @@ gradlePlugin {
             id = "sopt.plugin.data"
             implementationClass = "DataPlugin"
         }
+
+        register("AndroidTest") {
+            id = "sopt.android.test"
+            implementationClass = "AndroidTestPlugin"
+        }
+
+        register("UnitTest") {
+            id = "sopt.plugin.test"
+            implementationClass = "UnitTestPlugin"
+        }
     }
 }
