@@ -11,6 +11,7 @@ android {
     }
 }
 dependencies {
+    implementation(projects.core.domain)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
