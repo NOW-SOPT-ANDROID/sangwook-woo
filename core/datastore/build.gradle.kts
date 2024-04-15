@@ -16,7 +16,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.test.ext.junit)
     implementation(projects.core.common)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.coroutine)
