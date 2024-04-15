@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -29,37 +29,34 @@ class HomeViewModel @Inject constructor(
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
 
+    private var observeGetSoptJob: Job? = null
 
     init {
         getUserData()
-        observeGetSopt()
-        viewModelScope.launch {
+        observeGetSoptJob = observeGetSopt()
+        intent {
             container.stateFlow.debounce(300)
-                .filter { it.query.isNotEmpty() || it.query.isBlank() }
                 .collect {
-                    observeGetSopt()
+                    observeGetSoptJob?.cancel()
+                    observeGetSoptJob = observeGetSopt()
                 }
         }
     }
 
-    fun getUserData() = intent {
-        viewModelScope.launch {
-            getUserDataUseCase().collect {
-                reduce {
-                    state.copy(
-                        registeredHobby = it.hobby,
-                        registeredName = it.name,
-                    )
-                }
+    private fun getUserData() = intent {
+        getUserDataUseCase().collect {
+            reduce {
+                state.copy(
+                    registeredHobby = it.hobby,
+                    registeredName = it.name,
+                )
             }
         }
     }
 
     private fun observeGetSopt() = intent {
-        viewModelScope.launch {
-            getSoptUseCase(param = GetSoptUseCase.Param(state.query)).collect {
-                reduce { state.copy(friendList = it) }
-            }
+        getSoptUseCase(param = GetSoptUseCase.Param(state.query)).collect {
+            reduce { state.copy(friendList = it) }
         }
     }
 
