@@ -17,6 +17,9 @@ interface SoptDao {
     @Insert
     suspend fun addFriend(soptEntity: SoptEntity)
 
+    @Insert
+    suspend fun addFriends(soptList: List<SoptEntity>)
+
     @Query("DELETE FROM table_sopt WHERE id = :id")
     suspend fun deleteFriendById(id: Int)
 
