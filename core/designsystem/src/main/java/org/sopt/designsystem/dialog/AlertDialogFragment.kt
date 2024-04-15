@@ -5,7 +5,8 @@ import android.view.View
 import org.sopt.designsystem.databinding.FragmentAlertDialogBinding
 import org.sopt.ui.base.BindingDialogFragment
 
-class AlertDialogFragment : BindingDialogFragment<FragmentAlertDialogBinding>({ FragmentAlertDialogBinding.inflate(it)}) {
+class AlertDialogFragment :
+    BindingDialogFragment<FragmentAlertDialogBinding>({ FragmentAlertDialogBinding.inflate(it) }) {
     private var handleNegativeButton: (() -> Unit)? = null
     private var handlePositiveButton: (() -> Unit)? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class AlertDialogFragment : BindingDialogFragment<FragmentAlertDialogBinding>({ 
     private fun initDialogText(
         title: String,
         positiveButtonLabel: String,
-        negativeButtonLabel: String
+        negativeButtonLabel: String,
     ) {
         binding.tvAlertFragmentTitle.text = title
         binding.tvAlertFragmentPositive.text = positiveButtonLabel
@@ -59,7 +60,7 @@ class AlertDialogFragment : BindingDialogFragment<FragmentAlertDialogBinding>({ 
             negativeButtonLabel: String,
             positiveButtonLabel: String,
             handleNegativeButton: () -> Unit,
-            handlePositiveButton: () -> Unit
+            handlePositiveButton: () -> Unit,
         ): AlertDialogFragment {
             val args = Bundle()
             args.putString(ARG_TITLE, title)

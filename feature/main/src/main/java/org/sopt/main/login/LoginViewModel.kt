@@ -26,14 +26,15 @@ class LoginViewModel @Inject constructor(
         getUserData()
         intent {
             viewModelScope.launch {
-                container.stateFlow.collect{
-                    if(it.isAutoLogin){
+                container.stateFlow.collect {
+                    if (it.isAutoLogin) {
                         postSideEffect(LoginSideEffect.LoginSuccess)
                     }
                 }
             }
         }
     }
+
     fun getUserData() = intent {
         viewModelScope.launch {
             userDataRepository.getUserData().collect {

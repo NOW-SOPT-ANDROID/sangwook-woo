@@ -10,10 +10,11 @@ data class LoginState(
     val registeredName: String = "",
     val registeredHobby: String = "",
     val isAutoLogin: Boolean = false,
-){
+) {
     fun checkRegister() = registeredId.isBlank() || registeredPassword.isBlank()
 
-    fun matchesUserInfo(id: String, password: String) = registeredId == id && registeredPassword == password
+    fun matchesUserInfo(id: String, password: String) =
+        registeredId == id && registeredPassword == password
 
     fun createUser() = UserModel(registeredId, registeredPassword, registeredName, registeredHobby)
 }

@@ -2,9 +2,9 @@ package org.sopt.domain_test
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.*
 import org.sopt.data_test.FakeFriendRepository
 import org.sopt.domain.usecase.GetSoptUseCase
 import org.sopt.model.Friend
@@ -35,6 +35,7 @@ class UseCaseTest {
             hobby = "test4",
         ),
     )
+
     @Before
     fun setup() {
         soptRepository = FakeFriendRepository()
@@ -51,14 +52,14 @@ class UseCaseTest {
     @Test
     fun emptyQueryUseCaseTest() {
         val input = ""
-        val userList = runBlocking { getSoptUseCase( param = GetSoptUseCase.Param(input)).first() }
+        val userList = runBlocking { getSoptUseCase(param = GetSoptUseCase.Param(input)).first() }
         assertEquals(mockFriendList, userList)
     }
 
     @Test
     fun inputQueryUseCaseTest() {
         val input = "test2"
-        val userList = runBlocking { getSoptUseCase( param = GetSoptUseCase.Param(input)).first() }
+        val userList = runBlocking { getSoptUseCase(param = GetSoptUseCase.Param(input)).first() }
         assertEquals(mockFriendList.first { it.name.contains(input) }, userList.first())
     }
 }

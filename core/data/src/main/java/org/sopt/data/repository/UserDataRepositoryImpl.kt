@@ -9,8 +9,8 @@ import org.sopt.model.User
 import javax.inject.Inject
 
 class UserDataRepositoryImpl @Inject constructor(
-    private val userPreferencesDataSource: UserPreferencesDataSource
-): UserDataRepository {
+    private val userPreferencesDataSource: UserPreferencesDataSource,
+) : UserDataRepository {
     override fun getUserData() = userPreferencesDataSource.userData.map {
         it.toUser()
     }
@@ -24,7 +24,8 @@ class UserDataRepositoryImpl @Inject constructor(
         )
     )
 
-    override suspend fun setAutoLogin(isChecked: Boolean) = userPreferencesDataSource.setAutoLogin(isChecked)
+    override suspend fun setAutoLogin(isChecked: Boolean) =
+        userPreferencesDataSource.setAutoLogin(isChecked)
 
     override suspend fun deleteUserData() = userPreferencesDataSource.deleteUser()
 }

@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MypageFragment : Fragment() {
-    private var _binding : FragmentMypageBinding? = null
+    private var _binding: FragmentMypageBinding? = null
     private val binding: FragmentMypageBinding
         get() = requireNotNull(_binding)
     private val viewModel by viewModels<MypageViewModel>()
@@ -27,7 +27,7 @@ class MypageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         return binding.root
@@ -64,11 +64,12 @@ class MypageFragment : Fragment() {
     }
 
     private fun handleSideEffect(sideEffect: MypageSideEffect) {
-        when(sideEffect) {
+        when (sideEffect) {
             MypageSideEffect.LogoutSuccess -> {
                 startActivity(intentProvider.getIntent())
                 requireActivity().finish()
             }
+
             MypageSideEffect.WithdrawSuccess -> {
                 startActivity(intentProvider.getIntent())
                 requireActivity().finish()

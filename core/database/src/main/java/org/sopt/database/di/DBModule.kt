@@ -16,12 +16,12 @@ object DBModule {
     @Singleton
     @Provides
     fun providesDataBase(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): SoptDataBase = Room.databaseBuilder(context, SoptDataBase::class.java, "sopt.db").build()
 
     @Singleton
     @Provides
     fun providesDao(
-        soptDataBase: SoptDataBase
+        soptDataBase: SoptDataBase,
     ) = soptDataBase.soptDao()
 }

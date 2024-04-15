@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.getByType
 internal class FeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager){
+            with(pluginManager) {
                 apply("sopt.android.library")
                 apply("sopt.android.hilt")
                 apply("kotlin-parcelize")

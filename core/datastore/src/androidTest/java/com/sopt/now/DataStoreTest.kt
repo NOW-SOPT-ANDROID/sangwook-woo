@@ -6,12 +6,14 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import org.junit.runner.RunWith
 import org.sopt.common.security.SecurityInterface
 import org.sopt.common.security.SecurityUtil
 import org.sopt.datastore.UserData
@@ -26,6 +28,7 @@ class DataStoreTest {
 
     private lateinit var userDataStore: UserPreferencesDataSource
     private lateinit var securityUtil: SecurityInterface
+
     @get:Rule
     val tempFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
@@ -51,7 +54,7 @@ class DataStoreTest {
 
     @Test
     fun userDefault() = testScope.runTest {
-        val (id,pw,name,hobby) = userDataStore.userData.first()
+        val (id, pw, name, hobby) = userDataStore.userData.first()
         assertTrue(id.isNullOrBlank() && pw.isNullOrBlank() && name.isNullOrBlank() && hobby.isNullOrBlank())
     }
 

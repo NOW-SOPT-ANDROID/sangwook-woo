@@ -55,9 +55,11 @@ class LoginActivity : AppCompatActivity() {
             LoginSideEffect.LoginSuccess -> {
                 startActivity(MainActivity.newInstance(this))
             }
+
             LoginSideEffect.SignupSuccess -> {
                 snackBar(binding.root) { stringOf(R.string.login_signup_success) }
             }
+
             is LoginSideEffect.showSnackbar -> {
                 snackBar(binding.root) { sideEffect.message }
             }
