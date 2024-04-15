@@ -24,12 +24,9 @@ class MypageViewModel @Inject constructor(
     }
 
     private fun getUserData() = intent {
-        viewModelScope.launch {
-            userDataRepository.getUserData().collect {
-                reduce { state.copy(name = it.name, hobby = it.hobby) }
-            }
+        userDataRepository.getUserData().collect {
+            reduce { state.copy(name = it.name, hobby = it.hobby) }
         }
-
     }
 
     fun logout() = intent {
