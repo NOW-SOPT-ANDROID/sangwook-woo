@@ -10,6 +10,7 @@ class AndroidTestPlugin : Plugin<Project> {
                 "androidTestImplementation"(libs.findLibrary("androidx.test.runner").get())
                 "debugImplementation"(libs.findLibrary("androidx.test.core").get())
                 "androidTestImplementation"(libs.findLibrary("kotlinx.coroutines.test").get())
+                "implementation"(libs.findLibrary("androidx.test.ext.junit").get())
             }
         }
     }
