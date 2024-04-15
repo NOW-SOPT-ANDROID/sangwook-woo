@@ -23,7 +23,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "NOW-SOPT-Android"
 include(":app")
+include(":feature:main")
+include(":core:ui")
 include(":core:model")
 include(":core:designsystem")
-include(":core:ui")
-include(":feature:main")
+include(":core:database")
+include(":core:data")
+include(":core:domain")
+include(":core:common")
+include(":core:datastore")
+include(":core:domain-test")
+include(":core:data-test")

@@ -9,4 +9,6 @@ android {
 
 dependencies {
     implementation(projects.core.model)
+    implementation(libs.bundles.coroutine)
+    implementation(libs.bundles.orbit)
 }
