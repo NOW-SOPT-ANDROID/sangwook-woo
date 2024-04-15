@@ -56,14 +56,12 @@ class SignupViewModel @Inject constructor(
     }
 
     private fun setUserData(user: UserModel) = intent {
-        viewModelScope.launch {
-            runCatching { userDataRepository.setUserData(user.toUser()) }
-                .onSuccess {
-                    postSideEffect(
-                        SignupSideEffect.SignupSuccess
-                    )
-                }
-        }
+        runCatching { userDataRepository.setUserData(user.toUser()) }
+            .onSuccess {
+                postSideEffect(
+                    SignupSideEffect.SignupSuccess
+                )
+            }
     }
 
     fun updateId(id: String) = updateState { copy(id = id) }
