@@ -7,7 +7,7 @@ import org.sopt.main.main.MainActivity
 import javax.inject.Inject
 
 class MainIntentProvider @Inject constructor(
-    @ApplicationContext private val context: Context
-): IntentProvider {
+    @ApplicationContext private val context: Context,
+) : IntentProvider {
     override fun getIntent() = MainActivity.newInstance(context)
 }

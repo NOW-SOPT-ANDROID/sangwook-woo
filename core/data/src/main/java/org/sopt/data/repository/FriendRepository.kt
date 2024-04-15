@@ -9,10 +9,10 @@ import org.sopt.model.Friend
 import javax.inject.Inject
 
 class FriendRepository @Inject constructor(
-    private val soptDao: SoptDao
-): SoptRepository {
+    private val soptDao: SoptDao,
+) : SoptRepository {
     override fun getAll() = soptDao.getAll()
-        .map{ it.map(SoptEntity::toFriend) }
+        .map { it.map(SoptEntity::toFriend) }
 
     override fun getContainInput(input: String) = soptDao.getContainInput(input)
         .map { it.map(SoptEntity::toFriend) }

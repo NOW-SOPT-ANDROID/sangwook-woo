@@ -5,7 +5,7 @@ import org.sopt.convention.libs
 
 class UnitTestPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        with(target){
+        with(target) {
             dependencies {
                 "testImplementation"(libs.findLibrary("kotlinx.coroutines.test").get())
                 "testImplementation"(libs.findLibrary("mockito").get())

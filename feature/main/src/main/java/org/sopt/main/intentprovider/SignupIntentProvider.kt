@@ -7,7 +7,7 @@ import org.sopt.main.signup.SignupActivity
 import javax.inject.Inject
 
 class SignupIntentProvider @Inject constructor(
-    @ApplicationContext private val context: Context
-): IntentProvider {
+    @ApplicationContext private val context: Context,
+) : IntentProvider {
     override fun getIntent() = SignupActivity.newInstance(context)
 }

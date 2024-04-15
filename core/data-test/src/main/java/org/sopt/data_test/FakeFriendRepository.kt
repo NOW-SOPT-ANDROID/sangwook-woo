@@ -6,7 +6,7 @@ import org.sopt.domain.repo.SoptRepository
 import org.sopt.model.Friend
 
 class FakeFriendRepository : SoptRepository {
-    val friendList : MutableList<Friend> = mutableListOf()
+    val friendList: MutableList<Friend> = mutableListOf()
     override fun getAll(): Flow<List<Friend>> = flow {
         emit(friendList)
     }

@@ -7,7 +7,7 @@ import org.sopt.main.login.LoginActivity
 import javax.inject.Inject
 
 class LoginIntentProvider @Inject constructor(
-    @ApplicationContext private val context: Context
-): IntentProvider {
+    @ApplicationContext private val context: Context,
+) : IntentProvider {
     override fun getIntent() = LoginActivity.newInstance(context)
 }

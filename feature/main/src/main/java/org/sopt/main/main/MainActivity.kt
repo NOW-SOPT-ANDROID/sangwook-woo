@@ -13,18 +13,18 @@ import org.orbitmvi.orbit.viewmodel.observe
 import org.sopt.main.R
 import org.sopt.main.const.IntentKey.USER_KEY
 import org.sopt.main.databinding.ActivityMainBinding
-import org.sopt.main.login.LoginActivity
 import org.sopt.main.model.UserModel
 import org.sopt.ui.base.BindingActivity
 import org.sopt.ui.intent.getParcelable
 
 @AndroidEntryPoint
-class MainActivity : BindingActivity<ActivityMainBinding>({ ActivityMainBinding.inflate(it)}) {
+class MainActivity : BindingActivity<ActivityMainBinding>({ ActivityMainBinding.inflate(it) }) {
     private lateinit var navController: NavController
     private val viewModel by viewModels<MainViewModel>()
     val user by lazy {
         intent.getParcelable(USER_KEY, UserModel::class.java)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         collectState()
@@ -35,7 +35,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>({ ActivityMainBinding.
         viewModel.observe(this, state = ::render)
     }
 
-    private fun render(mainState: MainState){
+    private fun render(mainState: MainState) {
         binding.bnvMain.isVisible = mainState.isBnvBarVisible
     }
 
@@ -49,16 +49,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>({ ActivityMainBinding.
         initBnvItemSelectedListener()
         setBottomNavigationVisible()
     }
+
     private fun initBnvItemSelectedListener() {
         binding.bnvMain.setOnItemSelectedListener {
-            if(binding.bnvMain.menu.findItem(it.itemId).isChecked){
+            if (binding.bnvMain.menu.findItem(it.itemId).isChecked) {
                 false
             } else {
                 navController.apply {
                     popBackStack(org.sopt.home.R.id.navigation_graph_home, false)
                     popBackStack(org.sopt.search.R.id.navigation_graph_search, false)
                     popBackStack(org.sopt.mypage.R.id.navigation_graph_mypage, false)
-                    if(it.itemId == R.id.navigation_home) {
+                    if (it.itemId == R.id.navigation_home) {
                         popBackStack(org.sopt.home.R.id.navigation_graph_home, true)
                     }
                 }
@@ -69,13 +70,14 @@ class MainActivity : BindingActivity<ActivityMainBinding>({ ActivityMainBinding.
 
     private fun setBottomNavigationVisible() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (navigationMap.keys.contains(destination.id)){
+            if (navigationMap.keys.contains(destination.id)) {
                 viewModel.updateBnvVisible(true)
             } else {
                 viewModel.updateBnvVisible(false)
             }
         }
     }
+
     private fun navigateToDestination(itemId: Int): Boolean {
         return navigationMap[itemId]?.let { destination ->
             navController.navigate(destination)

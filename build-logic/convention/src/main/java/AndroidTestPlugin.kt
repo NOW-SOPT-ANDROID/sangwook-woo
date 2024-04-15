@@ -5,7 +5,7 @@ import org.sopt.convention.libs
 
 class AndroidTestPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        with(target){
+        with(target) {
             dependencies {
                 "androidTestImplementation"(libs.findLibrary("androidx.test.runner").get())
                 "debugImplementation"(libs.findLibrary("androidx.test.core").get())

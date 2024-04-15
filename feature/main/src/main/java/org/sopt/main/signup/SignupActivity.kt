@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
-import org.sopt.main.const.IntentKey.USER_KEY
 import org.sopt.main.databinding.ActivitySignupBinding
-import org.sopt.main.login.LoginActivity
 import org.sopt.ui.context.snackBar
 
 @AndroidEntryPoint
@@ -26,6 +24,7 @@ class SignupActivity : AppCompatActivity() {
         initSignupButtonClickListener()
         collectState()
     }
+
     private fun initEdittextListener() {
         binding.apply {
             etSignupId.doAfterTextChanged { viewModel.updateId(it.toString()) }

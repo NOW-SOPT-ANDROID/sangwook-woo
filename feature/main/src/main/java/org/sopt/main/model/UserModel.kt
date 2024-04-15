@@ -9,8 +9,8 @@ data class UserModel(
     val id: String,
     val pw: String,
     val name: String,
-    val hobby: String
-): Parcelable
+    val hobby: String,
+) : Parcelable
 
 fun UserModel.toUser() = User(
     id = id,

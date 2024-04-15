@@ -4,14 +4,13 @@ import androidx.datastore.core.Serializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import org.sopt.common.security.SecurityInterface
-import org.sopt.common.security.SecurityUtil
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
 class UserDataSerializer @Inject constructor(
-    private val securityManager: SecurityInterface
-): Serializer<UserData> {
+    private val securityManager: SecurityInterface,
+) : Serializer<UserData> {
     private val securityKeyAlias = "data-store"
     override val defaultValue: UserData
         get() = UserData()
@@ -29,7 +28,7 @@ class UserDataSerializer @Inject constructor(
                 deserializer = UserData.serializer(),
                 string = decryptedBytes.decodeToString()
             )
-        } catch(e: SerializationException) {
+        } catch (e: SerializationException) {
             e.printStackTrace()
             defaultValue
         }
