@@ -1,6 +1,6 @@
 package org.sopt.main.signup
 
-import org.sopt.main.model.User
+import org.sopt.main.model.UserModel
 
 data class SignupState(
     val id: String = "",
@@ -11,5 +11,5 @@ data class SignupState(
 
 sealed interface SignupSideEffect {
     data class showSnackbar(val message: String) : SignupSideEffect
-    data class SignupSuccess(val user: User) : SignupSideEffect
+    data object SignupSuccess : SignupSideEffect
 }

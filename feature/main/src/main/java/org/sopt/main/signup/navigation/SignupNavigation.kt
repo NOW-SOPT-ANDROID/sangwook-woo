@@ -3,7 +3,7 @@ package org.sopt.main.signup.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import org.sopt.main.model.User
+import org.sopt.main.model.UserModel
 import org.sopt.main.signup.SignupRoute
 
 fun NavController.navigateSignup() {
@@ -11,12 +11,10 @@ fun NavController.navigateSignup() {
 }
 
 fun NavGraphBuilder.signupNavGraph(
-    popBackStack: () -> Unit = {},
-    navigateLogin: (User) -> Unit = {},
+    navigateLogin: () -> Unit = {},
 ){
     composable(route = SignupRoute.route) { navBackStackEntry ->
         SignupRoute(
-            popBackStack = popBackStack,
             navigateLogin = navigateLogin
         )
     }
