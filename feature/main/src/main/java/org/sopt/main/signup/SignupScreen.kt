@@ -22,34 +22,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import org.sopt.designsystem.component.button.RegularButton
 import org.sopt.designsystem.component.textfield.RegularTextField
 import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
-import org.sopt.main.model.User
 
 @Composable
 fun SignupRoute(
     viewModel: SignupViewModel = hiltViewModel(),
-    popBackStack: () -> Unit,
-    navigateLogin: (User) -> Unit,
+    navigateLogin: () -> Unit,
 ) {
     val state = viewModel.collectAsState().value
     val snackBarHostState = remember { SnackbarHostState() }
-    val sideEffectFlow = viewModel.container.sideEffectFlow
+    val scope = rememberCoroutineScope()
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is SignupSideEffect.SignupSuccess -> {
-                navigateLogin(sideEffect.user)
+            SignupSideEffect.SignupSuccess -> {
+                navigateLogin()
             }
 
             is SignupSideEffect.showSnackbar -> {
-                snackBarHostState.showSnackbar(
-                    sideEffect.message,
-                    duration = SnackbarDuration.Short
-                )
+                scope.launch {
+                    snackBarHostState.showSnackbar(
+                        sideEffect.message,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
         }
     }
