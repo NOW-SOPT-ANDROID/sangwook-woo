@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userDataRepository: UserDataRepository
+    private val userDataRepository: UserDataRepository,
 ) : ContainerHost<LoginState, LoginSideEffect>, ViewModel() {
     override val container: Container<LoginState, LoginSideEffect> = container(LoginState())
 

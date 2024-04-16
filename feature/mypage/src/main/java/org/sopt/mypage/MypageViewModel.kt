@@ -9,7 +9,6 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import org.sopt.domain.repo.UserDataRepository
-import org.sopt.model.User
 import javax.inject.Inject
 
 @HiltViewModel

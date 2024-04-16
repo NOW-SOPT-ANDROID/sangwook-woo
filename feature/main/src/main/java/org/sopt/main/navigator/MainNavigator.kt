@@ -9,14 +9,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import org.sopt.home.navigation.navigateHome
-import org.sopt.mypage.navigation.navigateMypage
 import org.sopt.main.login.navigation.LoginRoute
 import org.sopt.main.login.navigation.navigateLogin
 import org.sopt.main.signup.navigation.navigateSignup
+import org.sopt.mypage.navigation.navigateMypage
 import org.sopt.search.navigation.navigateSearch
 
 class MainNavigator(
-    val navController: NavHostController
+    val navController: NavHostController,
 ) {
     private val currentDestination: NavDestination?
         @Composable get() = navController
@@ -44,6 +44,7 @@ class MainNavigator(
             MainTab.MY_PAGE -> navController.navigateMypage(navOptions)
         }
     }
+
     fun navigateLogin() {
         navController.navigateLogin()
     }

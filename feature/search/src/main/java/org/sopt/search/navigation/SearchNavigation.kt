@@ -11,7 +11,7 @@ fun NavController.navigateSearch(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.searchNavGraph(
-){
+) {
     composable(route = SearchRoute.route) {
         SearchRoute(
             label = ""

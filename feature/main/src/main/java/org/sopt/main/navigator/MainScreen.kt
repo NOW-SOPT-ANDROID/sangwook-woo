@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIn
-import androidx.compose.animation.slideOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -25,9 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import okhttp3.internal.toImmutableList
@@ -116,7 +111,7 @@ private fun RowScope.MainBottomBarItem(
     tab: MainTab,
     selected: Boolean,
     onClick: () -> Unit,
-){
+) {
     Box(
         modifier = Modifier
             .weight(1f)
@@ -125,11 +120,11 @@ private fun RowScope.MainBottomBarItem(
                 onClick = onClick
             ),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Icon(
             painter = painterResource(id = tab.iconResId),
             contentDescription = tab.contentDescription,
-            tint = if(selected) Black else Gray,
+            tint = if (selected) Black else Gray,
             modifier = Modifier.size(24.dp)
         )
     }
