@@ -1,8 +1,5 @@
 package org.sopt.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,7 +35,7 @@ fun HomeFriendContainer(
     containerHeight: Dp,
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
-){
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()

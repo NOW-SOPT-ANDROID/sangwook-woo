@@ -12,7 +12,7 @@ fun NavController.navigateMypage(navOptions: NavOptions) {
 
 fun NavGraphBuilder.MypageNavGraph(
     navigateToLoginScreen: () -> Unit,
-){
+) {
     composable(route = MypageRoute.route) { navBackStackEntry ->
         MypageRoute(
             navigateToLoginScreen = navigateToLoginScreen

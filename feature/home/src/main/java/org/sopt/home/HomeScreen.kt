@@ -112,8 +112,8 @@ fun HomeScreen(
                             hobby = state.registeredHobby
                         )
                     ) + state.friendList,
-                    key = {  it.id!! }
-                ) {friend ->
+                    key = { it.id!! }
+                ) { friend ->
                     HomeFriendContainer(
                         modifier = Modifier.animateItemPlacement(
                             animationSpec = tween(

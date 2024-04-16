@@ -40,6 +40,7 @@ fun MypageRoute(
             MypageSideEffect.LogoutSuccess -> {
                 navigateToLoginScreen()
             }
+
             MypageSideEffect.WithdrawSuccess -> {
                 navigateToLoginScreen()
             }

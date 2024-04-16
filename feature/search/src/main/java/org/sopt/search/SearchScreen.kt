@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun SearchRoute(
-    label : String,
+    label: String,
 ) {
-    Box(modifier = Modifier.fillMaxSize()){}
+    Box(modifier = Modifier.fillMaxSize()) {}
 }

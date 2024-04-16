@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import org.sopt.main.login.LoginRoute
 
 fun NavController.navigateLogin() {
-    navigate(LoginRoute.route){
-        popUpTo(this@navigateLogin.graph.startDestinationId){
+    navigate(LoginRoute.route) {
+        popUpTo(this@navigateLogin.graph.startDestinationId) {
             inclusive = true
         }
         launchSingleTop = true
@@ -17,7 +17,7 @@ fun NavController.navigateLogin() {
 fun NavGraphBuilder.loginNavGraph(
     navigateSignup: () -> Unit = {},
     navigateHome: () -> Unit = {},
-){
+) {
     composable(route = LoginRoute.route) {
         LoginRoute(
             navigateHome = navigateHome,

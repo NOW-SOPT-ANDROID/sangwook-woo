@@ -82,7 +82,12 @@ fun SignupScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 50.dp + it.calculateTopPadding(), bottom = 20.dp + it.calculateBottomPadding(), start = 20.dp, end = 20.dp)
+                .padding(
+                    top = 50.dp + it.calculateTopPadding(),
+                    bottom = 20.dp + it.calculateBottomPadding(),
+                    start = 20.dp,
+                    end = 20.dp
+                )
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
