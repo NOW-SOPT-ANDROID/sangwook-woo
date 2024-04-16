@@ -4,19 +4,44 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.annotation.OrbitExperimental
-import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import org.sopt.main.model.User
+import org.sopt.domain.repo.UserDataRepository
+import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val userDataRepository: UserDataRepository
 ) : ContainerHost<LoginState, LoginSideEffect>, ViewModel() {
     override val container: Container<LoginState, LoginSideEffect> = container(LoginState())
+
+    init {
+        getUserData()
+        intent {
+            container.stateFlow.collect {
+                if (it.isAutoLogin) {
+                    postSideEffect(LoginSideEffect.LoginSuccess)
+                }
+            }
+        }
+    }
+
+    fun getUserData() = intent {
+        userDataRepository.getUserData().collect {
+            reduce {
+                state.copy(
+                    registeredId = it.id,
+                    registeredPassword = it.pw,
+                    registeredHobby = it.hobby,
+                    registeredName = it.name,
+                    isAutoLogin = it.autoLogin,
+                )
+            }
+        }
+    }
 
     fun signup() = intent {
         postSideEffect(LoginSideEffect.NavigateToSignUp)
@@ -26,35 +51,15 @@ class LoginViewModel @Inject constructor(
         with(state) {
             when {
                 checkRegister() -> postSideEffect(LoginSideEffect.showSnackbar("회원가입 먼저하셈"))
-                matchesUserInfo(state.id, state.password) -> postSideEffect(LoginSideEffect.LoginSuccess(createUser()))
+                matchesUserInfo(state.id, state.password) -> {
+                    userDataRepository.setAutoLogin(true)
+                }
+
                 else -> postSideEffect(LoginSideEffect.showSnackbar("로그인 실패"))
             }
         }
     }
-    private fun LoginState.checkRegister() = registeredId.isBlank() || registeredPassword.isBlank()
-
-    private fun LoginState.matchesUserInfo(id: String, password: String) = registeredId == id && registeredPassword == password
-
-    private fun LoginState.createUser() = User(registeredId, registeredPassword, name, hobby)
 
     fun updateId(id: String) = updateState { copy(id = id) }
     fun updatePw(pw: String) = updateState { copy(password = pw) }
-
-    @OptIn(OrbitExperimental::class)
-    private fun updateState(reducer: LoginState.() -> LoginState) = blockingIntent {
-        reduce { state.reducer() }
-    }
-
-    fun signupSuccess(user: User?) = intent {
-        postSideEffect(LoginSideEffect.SignupSuccess)
-
-        reduce {
-            state.copy(
-                registeredId = user?.id.orEmpty(),
-                registeredPassword = user?.pw.orEmpty(),
-                name = user?.name.orEmpty(),
-                hobby = user?.hobby.orEmpty()
-            )
-        }
-    }
 }
