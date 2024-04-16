@@ -1,18 +1,14 @@
 package org.sopt.datastore.di
 
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.dataStore
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.junit.rules.TemporaryFolder
-import org.sopt.common.security.SecurityUtil
 import org.sopt.datastore.UserData
 import org.sopt.datastore.UserDataSerializer
 import javax.inject.Singleton
