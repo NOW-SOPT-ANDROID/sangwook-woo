@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.sopt.core.designsystem"
+    namespace = "org.sopt.designsystem"
 }
 
 dependencies {
