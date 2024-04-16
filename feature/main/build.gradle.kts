@@ -7,3 +7,11 @@ plugins {
 android {
     namespace = "org.sopt.main"
 }
+
+dependencies {
+    implementation(projects.core.designsystem)
+    implementation(projects.core.domain)
+    implementation(projects.feature.home)
+    implementation(projects.feature.search)
+    implementation(projects.feature.mypage)
+}
