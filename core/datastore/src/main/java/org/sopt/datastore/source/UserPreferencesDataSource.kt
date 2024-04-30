@@ -1,5 +1,6 @@
 package org.sopt.datastore.source
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import org.sopt.datastore.UserData
 import java.io.IOException
@@ -16,7 +17,7 @@ class UserPreferencesDataSource @Inject constructor(
                 it.copy(user.id, user.pw, user.name, user.hobby)
             }
         } catch (ioException: IOException) {
-            throw ioException
+            Log.e("exception", "setUserData ioException")
         }
     }
 
@@ -26,7 +27,7 @@ class UserPreferencesDataSource @Inject constructor(
                 it.copy(isAutoLogin = isChecked)
             }
         } catch (ioException: IOException) {
-            throw ioException
+            Log.e("exception", "setAutoLogin ioException")
         }
     }
 
@@ -36,7 +37,7 @@ class UserPreferencesDataSource @Inject constructor(
                 it.copy("","","","",false)
             }
         } catch (ioException: IOException) {
-            throw ioException
+            Log.e("exception", "deleteUser ioException")
         }
     }
 }
