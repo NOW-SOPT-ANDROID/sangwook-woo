@@ -1,24 +1,26 @@
 package com.sopt.common
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.sopt.common.security.SecurityInterface
 import org.sopt.common.security.SecurityUtil
+import org.sopt.common.security.fake.FakeAndroidKeyStoreProvider
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class EncryptTest {
-    lateinit var securityUtil: SecurityUtil
+    lateinit var securityUtil: SecurityInterface
     val testKey = "test-key"
-
     @Before
     fun setup() {
-        securityUtil = SecurityUtil()
+        FakeAndroidKeyStoreProvider.setup()
     }
 
     @Test
     fun encryptTest() {
+        securityUtil = SecurityUtil()
         val testMessage = "testMessage"
         val (encryptedData, iv) = securityUtil.encryptData(testKey, testMessage)
         val decryptedData = securityUtil.decryptData(testKey, encryptedData, iv)
