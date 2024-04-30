@@ -26,14 +26,12 @@ object DataStoreTestModule {
         tmpFolder: TemporaryFolder,
         scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
     ): DataStore<UserData> =
-        tmpFolder.testUserDataStore(userDataSerializer, scope)
+        tmpFolder.testUserDataStore(userDataSerializer)
     fun TemporaryFolder.testUserDataStore(
         userDataSerializer: UserDataSerializer,
-        scope: CoroutineScope
     ) =
         DataStoreFactory.create(
             serializer = userDataSerializer,
-            scope = scope
         ) {
             newFile("userdata_test.json")
         }
