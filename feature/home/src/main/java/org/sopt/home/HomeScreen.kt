@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -19,35 +18,33 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SheetState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import org.orbitmvi.orbit.compose.collectAsState
 import org.sopt.designsystem.component.dialog.SoptAlertDialog
 import org.sopt.designsystem.component.textfield.RegularTextField
 import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 import org.sopt.model.Friend
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun HomeRoute(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     label: String,
 ) {
-    val state = viewModel.collectAsState().value
-    val listState = rememberLazyListState()
-    val sheetState = rememberModalBottomSheetState()
+    val state by viewModel.collectAsState()
 
     HomeScreen(
+        modifier = modifier,
         state = state,
-        listState = listState,
-        sheetState = sheetState,
         onQueryValueChange = viewModel::updateQuery,
         onLongClickItem = viewModel::showDeleteDialog,
         onClickFloatingButton = viewModel::showAddFriendBottomSheet,
@@ -60,12 +57,11 @@ fun HomeRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     state: HomeState = HomeState(),
-    listState: LazyListState = rememberLazyListState(),
-    sheetState: SheetState = rememberModalBottomSheetState(),
     onQueryValueChange: (String) -> Unit = {},
     onLongClickItem: (Int) -> Unit = {},
     onClickFloatingButton: () -> Unit = {},
@@ -76,7 +72,10 @@ fun HomeScreen(
     onClickDialogPositiveButton: (Int) -> Unit = {},
     onClickDialogNegativeButton: () -> Unit = {},
 ) {
-    Box {
+    val listState = rememberLazyListState()
+    Box (
+        modifier = modifier
+    ) {
         if (state.showDeleteDialog.first) {
             SoptAlertDialog(
                 title = "삭제?",
@@ -105,13 +104,7 @@ fun HomeScreen(
                 state = listState
             ) {
                 items(
-                    items = listOf(
-                        Friend(
-                            id = 0,
-                            name = state.registeredName,
-                            hobby = state.registeredHobby
-                        )
-                    ) + state.friendList,
+                    items = state.friendList,
                     key = { it.id!! }
                 ) { friend ->
                     HomeFriendContainer(
@@ -142,7 +135,6 @@ fun HomeScreen(
         }
         if (state.showBottomSheet) {
             AddFriendBottomSheet(
-                sheetState = sheetState,
                 onClickSave = onClickSave,
                 onDismissRequest = onDismissRequest,
                 onNameValueChange = onBottomSheetNameChange,
@@ -161,7 +153,7 @@ fun preview() {
     NOWSOPTAndroidTheme {
         HomeScreen(
             state = HomeState(
-                friendList = listOf(
+                friendList = persistentListOf(
                     Friend(1, "asd", "asd"),
                     Friend(2, "asd", "asd"),
                     Friend(3, "asd", "asd"),

@@ -14,6 +14,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,10 +30,11 @@ import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 
 @Composable
 fun MypageRoute(
+    modifier: Modifier = Modifier,
     viewModel: MypageViewModel = hiltViewModel(),
     navigateToLoginScreen: () -> Unit,
 ) {
-    val state = viewModel.collectAsState().value
+    val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
 
     viewModel.collectSideEffect { sideEffect ->
@@ -49,6 +51,7 @@ fun MypageRoute(
 
     MypageScreen(
         snackBarHostState = snackBarHostState,
+        modifier = modifier,
         onClickLogoutButton = viewModel::logout,
         onClickWithDrawButton = viewModel::signout,
         state = state
@@ -59,6 +62,7 @@ fun MypageRoute(
 @Composable
 fun MypageScreen(
     snackBarHostState: SnackbarHostState,
+    modifier: Modifier = Modifier,
     onClickLogoutButton: () -> Unit = {},
     onClickWithDrawButton: () -> Unit = {},
     state: MypageState,
@@ -67,7 +71,7 @@ fun MypageScreen(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(top = 20.dp, bottom = 20.dp, start = 20.dp, end = 20.dp)
         ) {

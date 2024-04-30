@@ -1,5 +1,6 @@
 package org.sopt.home.navigation
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,9 +14,12 @@ fun NavController.navigateHome(navOptions: NavOptions? = null) {
         navigate(HomeRoute.route, navOptions)
 }
 
-fun NavGraphBuilder.homeNavGraph() {
+fun NavGraphBuilder.homeNavGraph(
+    modifier: Modifier = Modifier,
+) {
     composable(route = HomeRoute.route) {
         HomeRoute(
+            modifier = modifier,
             label = ""
         )
     }

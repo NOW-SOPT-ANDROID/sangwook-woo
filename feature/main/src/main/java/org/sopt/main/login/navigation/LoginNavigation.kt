@@ -1,5 +1,6 @@
 package org.sopt.main.login.navigation
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -15,6 +16,7 @@ fun NavController.navigateLogin() {
 }
 
 fun NavGraphBuilder.loginNavGraph(
+    modifier: Modifier = Modifier,
     navigateSignup: () -> Unit = {},
     navigateHome: () -> Unit = {},
 ) {
