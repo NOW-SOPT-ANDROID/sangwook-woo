@@ -1,4 +1,4 @@
-package org.sopt.domain_test
+package org.sopt.domaintest
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
