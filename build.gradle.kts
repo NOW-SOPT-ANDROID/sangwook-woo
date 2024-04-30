@@ -11,6 +11,10 @@ plugins {
 
 }
 
+apply {
+    from("gradle/projectDependencyGraph.gradle")
+}
+
 buildscript {
     repositories {
         google()
