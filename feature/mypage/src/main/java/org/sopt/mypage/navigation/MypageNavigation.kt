@@ -1,5 +1,6 @@
 package org.sopt.mypage.navigation
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -11,10 +12,12 @@ fun NavController.navigateMypage(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.MypageNavGraph(
+    modifier: Modifier = Modifier,
     navigateToLoginScreen: () -> Unit,
 ) {
     composable(route = MypageRoute.route) { navBackStackEntry ->
         MypageRoute(
+            modifier = modifier,
             navigateToLoginScreen = navigateToLoginScreen
         )
     }

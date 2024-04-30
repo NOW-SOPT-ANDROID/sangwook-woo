@@ -1,6 +1,7 @@
 package org.sopt.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,15 +25,14 @@ import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddFriendBottomSheet(
-    modifier: Modifier = Modifier,
-    sheetState: SheetState,
-    onDismissRequest: () -> Unit = {},
     onClickSave: () -> Unit,
     onNameValueChange: (String) -> Unit,
     onHobbyValueChange: (String) -> Unit,
     state: HomeState,
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit = {},
 ) {
-    ModalBottomSheet(sheetState = sheetState, onDismissRequest = onDismissRequest) {
+    ModalBottomSheet(onDismissRequest = onDismissRequest) {
         AddFriendContent(
             onClickSave = onClickSave,
             onNameValueChange = onNameValueChange,
@@ -55,26 +55,24 @@ fun AddFriendContent(
             .background(color = Color.White)
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(40.dp)
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "친구 추가",
             fontSize = 20.sp,
         )
-        Spacer(modifier = Modifier.height(40.dp))
         RegularTextField(
             value = state.savingName,
             placeholder = "이름을 입력하세요",
             onValueChange = onNameValueChange
 
         )
-        Spacer(modifier = Modifier.height(40.dp))
         RegularTextField(
             value = state.savingHobby,
             placeholder = "취미를 입력하세요",
             onValueChange = onHobbyValueChange
         )
-        Spacer(modifier = Modifier.height(40.dp))
         RegularButton(
             modifier = Modifier.padding(horizontal = 40.dp),
             text = "저장",

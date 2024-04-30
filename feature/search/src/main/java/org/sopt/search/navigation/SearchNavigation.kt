@@ -1,5 +1,6 @@
 package org.sopt.search.navigation
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -11,9 +12,11 @@ fun NavController.navigateSearch(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.searchNavGraph(
+    modifier: Modifier = Modifier,
 ) {
     composable(route = SearchRoute.route) {
         SearchRoute(
+            modifier = modifier,
             label = ""
         )
     }

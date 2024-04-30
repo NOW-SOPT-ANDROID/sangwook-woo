@@ -14,6 +14,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -31,10 +32,11 @@ import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 
 @Composable
 fun SignupRoute(
+    modifier: Modifier = Modifier,
     viewModel: SignupViewModel = hiltViewModel(),
     navigateLogin: () -> Unit,
 ) {
-    val state = viewModel.collectAsState().value
+    val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -56,6 +58,7 @@ fun SignupRoute(
     }
 
     SignupScreen(
+        modifier = modifier,
         snackBarHostState = snackBarHostState,
         state = state,
         onClickSignupBtn = viewModel::signup,
@@ -68,6 +71,7 @@ fun SignupRoute(
 
 @Composable
 fun SignupScreen(
+    modifier: Modifier = Modifier,
     snackBarHostState: SnackbarHostState,
     state: SignupState = SignupState(),
     onClickSignupBtn: () -> Unit = {},
@@ -77,8 +81,9 @@ fun SignupScreen(
     onValueChangeHobby: (String) -> Unit = {},
 ) {
     Scaffold(
+        modifier = modifier,
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
-    ) { it ->
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()

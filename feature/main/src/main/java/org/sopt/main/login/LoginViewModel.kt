@@ -50,7 +50,9 @@ class LoginViewModel @Inject constructor(
     fun login() = intent {
         with(state) {
             when {
-                checkRegister() -> postSideEffect(LoginSideEffect.showSnackbar("회원가입 먼저하셈"))
+                checkRegister() -> {
+                    postSideEffect(LoginSideEffect.showSnackbar("회원가입 먼저하셈"))
+                }
                 matchesUserInfo(state.id, state.password) -> {
                     userDataRepository.setAutoLogin(true)
                 }

@@ -1,5 +1,6 @@
 package org.sopt.home
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,15 +28,16 @@ import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeFriendContainer(
-    id: Int? = 0,
-    modifier: Modifier = Modifier,
-    painter: Painter = painterResource(R.drawable.ic_launcher_background),
     title: String,
-    subTitle: String = "",
     containerHeight: Dp,
+    modifier: Modifier = Modifier,
+    id: Int? = 0,
+    @DrawableRes imageId: Int = R.drawable.ic_launcher_background,
+    subTitle: String = "",
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
 ) {
+    val painter = painterResource(id = imageId)
     Row(
         modifier = modifier
             .fillMaxWidth()

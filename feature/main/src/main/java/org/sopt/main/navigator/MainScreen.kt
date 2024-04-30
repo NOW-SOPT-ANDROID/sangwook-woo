@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -25,7 +26,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
-import okhttp3.internal.toImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.sopt.home.navigation.homeNavGraph
 import org.sopt.main.login.navigation.loginNavGraph
 import org.sopt.main.signup.navigation.signupNavGraph
@@ -40,27 +41,34 @@ fun MainScreen(
 ) {
     Scaffold(
         modifier = modifier,
-        content = {
+        content = { innerPadding ->
             NavHost(
                 navController = navigator.navController,
                 startDestination = navigator.startDestination,
             ) {
                 loginNavGraph(
+                    modifier = modifier.padding(innerPadding),
                     navigateSignup = navigator::navigateSignup,
                     navigateHome = navigator::navigateHome,
                 )
 
                 signupNavGraph(
+                    modifier = modifier.padding(innerPadding),
                     navigateLogin = navigator::navigateLogin
                 )
 
                 MypageNavGraph(
+                    modifier = modifier.padding(innerPadding),
                     navigateToLoginScreen = navigator::navigateLogin
                 )
 
-                homeNavGraph()
+                homeNavGraph(
+                    modifier = modifier.padding(innerPadding),
+                )
 
-                searchNavGraph()
+                searchNavGraph(
+                    modifier = modifier.padding(innerPadding),
+                )
             }
         },
         bottomBar = {
