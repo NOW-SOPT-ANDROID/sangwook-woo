@@ -3,9 +3,8 @@ package org.sopt.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.debounce
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -20,7 +19,6 @@ import org.sopt.model.Friend
 import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getSoptUseCase: GetSoptUseCase,
@@ -29,16 +27,25 @@ class HomeViewModel @Inject constructor(
 ) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
     override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
 
-    private var observeGetSoptJob: Job? = null
-
     init {
         getUserData()
-        observeGetSoptJob = observeGetSopt()
         intent {
-            container.stateFlow.debounce(300)
+            container.stateFlow
+                .flatMapLatest {
+                    getSopt(it.query)
+                }
                 .collect {
-                    observeGetSoptJob?.cancel()
-                    observeGetSoptJob = observeGetSopt()
+                    reduce {
+                        state.copy(
+                            friendList = (listOf(
+                                Friend(
+                                    id = 0,
+                                    name = state.registeredName,
+                                    hobby = state.registeredHobby
+                                )
+                            ) + it).toImmutableList()
+                        )
+                    }
                 }
         }
     }
@@ -54,11 +61,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun observeGetSopt() = intent {
-        getSoptUseCase(param = GetSoptUseCase.Param(state.query)).collect {
-            reduce { state.copy(friendList = it) }
-        }
-    }
+    private fun getSopt(query: String) = getSoptUseCase(param = GetSoptUseCase.Param(query = query))
+
 
     fun addFriend() = intent {
         postSideEffect(HomeSideEffect.showAddFriendBottomSheet)

@@ -1,9 +1,8 @@
-package com.sopt.database
+package org.sopt.database
 
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -11,11 +10,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.sopt.database.SoptDao
-import org.sopt.database.SoptDataBase
+import org.robolectric.RobolectricTestRunner
 import org.sopt.database.entity.SoptEntity
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class DataBaseTest {
     private lateinit var soptDao: SoptDao
     private lateinit var db: SoptDataBase

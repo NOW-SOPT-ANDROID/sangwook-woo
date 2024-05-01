@@ -52,15 +52,16 @@ class SecurityUtil @Inject constructor() : SecurityInterface {
         return getSecretKey(keyAlias)
     }
     private fun generateSecretKey(keyAlias: String): SecretKey {
-        return keyGenerator.apply {
-            init(
-                KeyGenParameterSpec
-                    .Builder(keyAlias, PURPOSE_ENCRYPT or PURPOSE_DECRYPT)
-                    .setBlockModes(BLOCK_MODE_GCM)
-                    .setEncryptionPaddings(ENCRYPTION_PADDING_NONE)
-                    .build()
-            )
-        }.generateKey()
+        val parameterSpec = KeyGenParameterSpec.Builder(
+            keyAlias,
+            PURPOSE_ENCRYPT or PURPOSE_DECRYPT
+        ).run {
+            setBlockModes(BLOCK_MODE_GCM)
+            setEncryptionPaddings(ENCRYPTION_PADDING_NONE)
+            build()
+        }
+        keyGenerator.init(parameterSpec)
+        return keyGenerator.generateKey()
     }
 
     private fun getSecretKey(keyAlias: String) =

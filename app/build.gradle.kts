@@ -1,7 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.sopt.android.application)
-    alias(libs.plugins.sopt.android.test)
     alias(libs.plugins.sopt.android.hilt)
 }
 
