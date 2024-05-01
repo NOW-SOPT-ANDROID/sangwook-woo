@@ -1,7 +1,11 @@
-package com.sopt.now
+package org.sopt.datastore
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
+import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -10,35 +14,38 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.shadows.ShadowLog
 import org.sopt.common.security.SecurityInterface
 import org.sopt.common.security.SecurityUtil
-import org.sopt.datastore.UserData
-import org.sopt.datastore.UserDataSerializer
-import org.sopt.datastore.di.DataStoreTestModule.testUserDataStore
+import org.sopt.common.security.fake.FakeAndroidKeyStoreProvider
 import org.sopt.datastore.source.UserPreferencesDataSource
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class DataStoreTest {
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val testScope = TestScope(UnconfinedTestDispatcher())
+    private val testDispatcher = UnconfinedTestDispatcher()
+    private val testScope = TestScope(testDispatcher + Job())
+    private val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    private lateinit var userDataStore: UserPreferencesDataSource
     private lateinit var securityUtil: SecurityInterface
-
-    @get:Rule
-    val tempFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
+    private lateinit var testDataStore: DataStore<UserData>
+    private lateinit var userDataStore: UserPreferencesDataSource
 
     @Before
     fun setup() {
+        ShadowLog.stream = System.out
+        FakeAndroidKeyStoreProvider.setup()
         securityUtil = SecurityUtil()
-
-        userDataStore = UserPreferencesDataSource(
-            tempFolder.testUserDataStore(UserDataSerializer(securityUtil), testScope)
-        )
+        testDataStore = DataStoreFactory.create(
+            serializer = UserDataSerializer(securityUtil),
+            scope = testScope
+        ){
+            context.dataStoreFile("test_user_preferences.pb")
+        }
+        userDataStore = UserPreferencesDataSource(testDataStore)
     }
 
     @Test

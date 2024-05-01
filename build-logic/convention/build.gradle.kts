@@ -53,7 +53,7 @@ gradlePlugin {
         }
 
         register("AndroidTest") {
-            id = "sopt.android.test"
+            id = "sopt.plugin.android.test"
             implementationClass = "AndroidTestPlugin"
         }
 
