@@ -1,5 +1,7 @@
 package org.sopt.main.login
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,58 +13,38 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import org.sopt.designsystem.R
+import org.sopt.domain.repo.AuthRepository
 import org.sopt.domain.repo.UserDataRepository
 import org.sopt.ui.context.ResourceProvider
+import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val resourceProvider: ResourceProvider,
-    private val userDataRepository: UserDataRepository,
+    private val authRepository: AuthRepository,
 ) : ContainerHost<LoginState, LoginSideEffect>, ViewModel() {
     override val container: Container<LoginState, LoginSideEffect> = container(LoginState())
-
-    init {
-        getUserData()
-        intent {
-            container.stateFlow.collect {
-                if (it.isAutoLogin) {
-                    postSideEffect(LoginSideEffect.LoginSuccess)
-                }
-            }
-        }
-    }
-
-    fun getUserData() = intent {
-        userDataRepository.getUserData().collect {
-            reduce {
-                state.copy(
-                    registeredId = it.id,
-                    registeredPassword = it.pw,
-                    registeredHobby = it.hobby,
-                    registeredName = it.name,
-                    isAutoLogin = it.autoLogin,
-                )
-            }
-        }
-    }
 
     fun signup() = intent {
         postSideEffect(LoginSideEffect.NavigateToSignUp)
     }
 
-    fun login(id: String, password: String) = intent {
-        with(state) {
-            when {
-                checkRegister() -> postSideEffect(LoginSideEffect.showSnackbar(getString(R.string.login_not_registered)))
-                matchesUserInfo(id, password) -> {
-                    userDataRepository.setAutoLogin(true)
-                }
-
-                else -> postSideEffect(LoginSideEffect.showSnackbar(getString(R.string.login_login_fail)))
+    fun login() = intent {
+        authRepository.postSignin(
+            id = state.id,
+            pw = state.password
+        ).onSuccess {
+            if (it.code !in 200..299) {
+                postSideEffect(LoginSideEffect.showSnackbar(it.message))
+            } else {
+                postSideEffect(LoginSideEffect.LoginSuccess)
             }
+        }.onFailure {
+            Log.e("throwable", it.toString())
         }
     }
 
-    private fun getString(resId: Int) = resourceProvider.getString(resId)
+
+    fun updateId(id: String) = updateState { copy(id = id) }
+    fun updatePw(pw: String) = updateState { copy(password = pw) }
 }
