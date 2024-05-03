@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.sopt.android.library)
     alias(libs.plugins.sopt.android.hilt)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sopt.plugin.test)
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.common)
+    implementation(projects.core.model)
     implementation(projects.core.datastore)
     implementation(libs.bundles.coroutine)
     implementation(libs.kotlinx.serialization.json)
