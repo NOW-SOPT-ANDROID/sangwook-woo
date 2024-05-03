@@ -1,5 +1,6 @@
 package org.sopt.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -8,6 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.sopt.domain.repo.UserRepository
@@ -32,7 +35,10 @@ class HomeViewModel @Inject constructor(
         userRepository.getUser()
             .distinctUntilChanged()
             .cachedIn(viewModelScope)
-            .collect {
+            .catch { t ->
+                Log.e("error", t.message.toString())
+            }
+            .collectLatest {
                 _userState.emit(it)
             }
     }
