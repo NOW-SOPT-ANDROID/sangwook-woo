@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
@@ -12,6 +13,7 @@ import org.sopt.home.navigation.navigateHome
 import org.sopt.main.login.navigation.LoginRoute
 import org.sopt.main.login.navigation.navigateLogin
 import org.sopt.main.signup.navigation.navigateSignup
+import org.sopt.mypage.modifypassword.navigation.navigateModifyPassword
 import org.sopt.mypage.navigation.navigateMypage
 import org.sopt.search.navigation.navigateSearch
 
@@ -22,7 +24,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = LoginRoute.route
+    val startDestination = LoginRoute.loginRoute("{${LoginRoute.IS_SIGNUP_SUCESS}}")
 
     val currentTab: MainTab?
         @Composable get() = currentDestination
@@ -38,6 +40,8 @@ class MainNavigator(
             restoreState = true
         }
 
+        navController.popBackStack(tab.route, false)
+
         when (tab) {
             MainTab.HOME -> navController.navigateHome(navOptions)
             MainTab.SEARCH -> navController.navigateSearch(navOptions)
@@ -45,16 +49,24 @@ class MainNavigator(
         }
     }
 
-    fun navigateLogin() {
-        navController.navigateLogin()
+    fun navigateLogin(isSignupSuccess: Boolean) {
+        navController.navigateLogin(isSignupSuccess)
     }
 
     fun navigateSignup() {
         navController.navigateSignup()
     }
 
-    fun navigateHome() {
-        navController.navigateHome()
+    fun navigateHome(navOptions: NavOptions? = null) {
+        navController.navigateHome(navOptions)
+    }
+
+    fun navigateModifyPassword() {
+        navController.navigateModifyPassword()
+    }
+
+    fun navigateMypage(navOptions: NavOptions? = null) {
+        navController.navigateMypage(navOptions)
     }
 
     fun popBackStackIfNotLogin() {
