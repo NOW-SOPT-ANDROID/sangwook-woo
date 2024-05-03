@@ -7,6 +7,7 @@ data class UserModel(
     val pw: String = "",
     val name: String = "",
     val hobby: String = "",
+    val phone: String = "",
 )
 
 fun UserModel.toUser() = User(

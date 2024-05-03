@@ -34,7 +34,7 @@ import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 fun SignupRoute(
     modifier: Modifier = Modifier,
     viewModel: SignupViewModel = hiltViewModel(),
-    navigateLogin: () -> Unit,
+    navigateLogin: (Boolean) -> Unit,
 ) {
     val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -43,11 +43,12 @@ fun SignupRoute(
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             SignupSideEffect.SignupSuccess -> {
-                navigateLogin()
+                navigateLogin(true)
             }
 
-            is SignupSideEffect.showSnackbar -> {
+            is SignupSideEffect.ShowSnackbar -> {
                 scope.launch {
+                    snackBarHostState.currentSnackbarData?.dismiss()
                     snackBarHostState.showSnackbar(
                         sideEffect.message,
                         duration = SnackbarDuration.Short
@@ -64,7 +65,7 @@ fun SignupRoute(
         onClickSignupBtn = viewModel::signup,
         onValueChangeId = viewModel::updateId,
         onValueChangePw = viewModel::updatePw,
-        onValueChangeHobby = viewModel::updateHobby,
+        onValueChangeHobby = viewModel::updatePhone,
         onValueChangeName = viewModel::updateName
     )
 }
@@ -146,10 +147,10 @@ fun SignupScreen(
 
                 RegularTextField(
                     modifier = Modifier.padding(end = 20.dp),
-                    title = "취미",
+                    title = "휴대폰",
                     textStyle = MaterialTheme.typography.headlineSmall,
-                    value = state.hobby,
-                    placeholder = "취미를 입력하세요",
+                    value = state.phone,
+                    placeholder = "휴대폰 번호를 입력하세요",
                     onValueChange = onValueChangeHobby
                 )
 
@@ -163,8 +164,6 @@ fun SignupScreen(
             }
         }
     }
-
-
 }
 
 @Preview(showBackground = true)
