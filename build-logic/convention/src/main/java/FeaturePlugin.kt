@@ -3,6 +3,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import org.sopt.convention.libs
 
 internal class FeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -33,12 +34,14 @@ internal class FeaturePlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.activity.ktx").get())
                 "implementation"(libs.findLibrary("androidx.fragment.ktx").get())
                 "implementation"(libs.findLibrary("androidx.recyclerview").get())
+                "implementation"(libs.findLibrary("androidx.paging").get())
                 "implementation"(libs.findLibrary("google.material").get())
 
                 "implementation"(libs.findLibrary("kotlinx.coroutines.android").get())
                 "implementation"(libs.findLibrary("kotlinx.coroutines.core").get())
                 "implementation"(libs.findLibrary("kotlinx.collections").get())
 
+                "implementation"(libs.findLibrary("coil").get())
                 "implementation"(libs.findLibrary("timber").get())
             }
         }
