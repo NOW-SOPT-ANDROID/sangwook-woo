@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
-import org.sopt.mypage.MypageSideEffect
-import org.sopt.mypage.MypageState
 import org.sopt.mypage.databinding.FragmentModifyPasswordBinding
 import org.sopt.ui.fragment.snackBar
 
@@ -48,11 +46,13 @@ class ModifyPasswordFragment : Fragment() {
             ModifyPasswordSideEffect.ModifySuccess -> {
                 findNavController().navigateUp()
             }
+
             is ModifyPasswordSideEffect.ShowSnackbar -> {
-                snackBar(binding.root){ sideEffect.msg }
+                snackBar(binding.root) { sideEffect.msg }
             }
         }
     }
+
     private fun modifyPassword() {
         binding.btnModifyPassword.setOnClickListener {
             viewModel.modifyPassword()

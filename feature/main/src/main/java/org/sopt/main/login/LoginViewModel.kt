@@ -1,21 +1,14 @@
 package org.sopt.main.login
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import org.sopt.designsystem.R
 import org.sopt.domain.repo.AuthRepository
-import org.sopt.domain.repo.UserDataRepository
-import org.sopt.ui.context.ResourceProvider
 import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
