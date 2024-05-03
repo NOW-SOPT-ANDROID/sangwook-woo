@@ -14,7 +14,7 @@ class UserPreferencesDataSource @Inject constructor(
     suspend fun setUserData(user: UserData) {
         try {
             userPreferences.updateData {
-                it.copy(user.id, user.pw, user.name, user.hobby)
+                it.copy(user.memberId, user.id, user.pw, user.name, user.hobby)
             }
         } catch (ioException: IOException) {
             Log.e("exception", "setUserData ioException")
@@ -31,10 +31,20 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
+    suspend fun setMemberId(id: Int) {
+        try {
+            userPreferences.updateData {
+                it.copy(memberId = id)
+            }
+        } catch (ioException: IOException) {
+            Log.e("exception", "setMemberId ioException")
+        }
+    }
+
     suspend fun deleteUser() {
         try {
             userPreferences.updateData {
-                it.copy("","","","",false)
+                it.copy(null, "", "", "", "", false)
             }
         } catch (ioException: IOException) {
             Log.e("exception", "deleteUser ioException")

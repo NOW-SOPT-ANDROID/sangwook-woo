@@ -1,6 +1,7 @@
 package org.sopt.convention
 
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
@@ -15,6 +16,17 @@ internal fun Project.configureKotlinAndroid(
             minSdk = Const.minSdk
 
             vectorDrawables.useSupportLibrary = true
+
+            buildConfigField(
+                type = "String",
+                name = "AUTH_BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("auth.base.url")
+            )
+            buildConfigField(
+                type = "String",
+                name = "REQRES_BASE_URL",
+                gradleLocalProperties(rootDir, providers).getProperty("reqres.base.url")
+            )
         }
 
         compileOptions {
