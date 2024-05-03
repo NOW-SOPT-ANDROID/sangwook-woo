@@ -32,7 +32,8 @@ import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 fun MypageRoute(
     modifier: Modifier = Modifier,
     viewModel: MypageViewModel = hiltViewModel(),
-    navigateToLoginScreen: () -> Unit,
+    navigateToLoginScreen: (Boolean) -> Unit,
+    navigateToModifyPassword: () -> Unit,
 ) {
     val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -40,11 +41,11 @@ fun MypageRoute(
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             MypageSideEffect.LogoutSuccess -> {
-                navigateToLoginScreen()
+                navigateToLoginScreen(false)
             }
 
-            MypageSideEffect.WithdrawSuccess -> {
-                navigateToLoginScreen()
+            MypageSideEffect.NavigateModifyPassword -> {
+                navigateToModifyPassword()
             }
         }
     }
@@ -53,7 +54,7 @@ fun MypageRoute(
         snackBarHostState = snackBarHostState,
         modifier = modifier,
         onClickLogoutButton = viewModel::logout,
-        onClickWithDrawButton = viewModel::signout,
+        onClickWithDrawButton = viewModel::modifyPassword,
         state = state
     )
 }
@@ -77,13 +78,13 @@ fun MypageScreen(
         ) {
             Column {
                 MypageText(
-                    title = "이름 : ",
-                    text = state.name
+                    title = "닉네임 : ",
+                    text = state.nickname
                 )
                 Spacer(modifier = Modifier.height(30.dp))
                 MypageText(
-                    title = "취미 : ",
-                    text = state.hobby
+                    title = "번호 : ",
+                    text = state.phone
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 RegularButton(
@@ -92,7 +93,7 @@ fun MypageScreen(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 RegularButton(
-                    text = "회원탈퇴",
+                    text = "비밀번호 변경",
                     onClick = onClickWithDrawButton
                 )
                 Spacer(modifier = Modifier.height(30.dp))
