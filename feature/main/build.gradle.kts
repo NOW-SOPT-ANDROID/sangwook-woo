@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.feature.home)
     implementation(projects.feature.search)
     implementation(projects.feature.mypage)
+    implementation(libs.retrofit.core)
 }
