@@ -18,10 +18,10 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tv_mypage_hobby"
+        android:id="@+id/tv_mypage_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="취미"
+        tools:text="폰"
         android:textSize="30dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/tv_mypage_name"
@@ -33,17 +33,17 @@
         android:layout_height="wrap_content"
         android:text="로그아웃"
         android:layout_marginBottom="20dp"
-        app:layout_constraintStart_toStartOf="@id/btn_mypage_withdraw"
-        app:layout_constraintEnd_toEndOf="@id/btn_mypage_withdraw"
-        app:layout_constraintBottom_toTopOf="@id/btn_mypage_withdraw"/>
+        app:layout_constraintStart_toStartOf="@id/btn_mypage_modify_password"
+        app:layout_constraintEnd_toEndOf="@id/btn_mypage_modify_password"
+        app:layout_constraintBottom_toTopOf="@id/btn_mypage_modify_password"/>
 
     <Button
-        android:id="@+id/btn_mypage_withdraw"
+        android:id="@+id/btn_mypage_modify_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="30dp"
-        android:text="회원탈퇴"
+        android:text="비번 변경"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

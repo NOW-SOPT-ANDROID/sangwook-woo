@@ -1,12 +1,12 @@
 package org.sopt.mypage
 
 data class MypageState(
-    val name: String = "",
-    val hobby: String = "",
+    val nickname: String = "",
+    val phone: String = "",
 )
 
 sealed interface MypageSideEffect {
     data object LogoutSuccess : MypageSideEffect
 
-    data object WithdrawSuccess : MypageSideEffect
+    data object NavigateModifyPassword : MypageSideEffect
 }

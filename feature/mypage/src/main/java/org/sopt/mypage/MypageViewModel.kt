@@ -10,39 +10,32 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import org.sopt.domain.repo.AuthRepository
 import org.sopt.domain.repo.UserDataRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class MypageViewModel @Inject constructor(
-    private val userDataRepository: UserDataRepository,
+    private val authRepository: AuthRepository,
 ) : ContainerHost<MypageState, MypageSideEffect>, ViewModel() {
     override val container: Container<MypageState, MypageSideEffect> = container(MypageState())
 
     init {
-        getUserData()
+        getUserInfo()
     }
 
-    private fun getUserData() = intent {
-        userDataRepository.getUserData().collect {
-            reduce { state.copy(name = it.name, hobby = it.hobby) }
+    private fun getUserInfo() = intent {
+        authRepository.getUserinfo().onSuccess {
+            if (it == null) return@intent
+            reduce { state.copy(nickname = it.nickname, phone = it.phone) }
         }
     }
 
     fun logout() = intent {
-        setAutoLoginFalse()
-            .onSuccess { postSideEffect(MypageSideEffect.LogoutSuccess) }
+        postSideEffect(MypageSideEffect.LogoutSuccess)
     }
 
-    fun signout() = intent {
-        deleteUserData()
-            .onSuccess { postSideEffect(MypageSideEffect.WithdrawSuccess) }
+    fun modifyPassword() = intent {
+        postSideEffect(MypageSideEffect.NavigateModifyPassword)
     }
-
-    private suspend fun setAutoLoginFalse() =
-        runCatching { userDataRepository.setAutoLogin(false) }
-
-    private suspend fun deleteUserData() =
-        runCatching { userDataRepository.deleteUserData() }
-
 }
