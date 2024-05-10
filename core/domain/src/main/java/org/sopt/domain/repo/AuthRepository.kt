@@ -6,7 +6,7 @@ import org.sopt.model.Member
 interface AuthRepository {
     suspend fun postSignup(member: Member, pw: String): Result<Base<Nothing>>
 
-    suspend fun getUserinfo(): Result<Member?>
+    suspend fun getUserinfo(): Result<Base<Member>>
 
     suspend fun postSignin(id: String, pw: String): Result<Base<Nothing>>
 
