@@ -13,7 +13,7 @@ class UserRepositoryImpl @Inject constructor(
     private val userPagingSource: UserPagingSource,
 ) : UserRepository {
     override fun getUser(): Flow<PagingData<ReqresUser>> {
-        return Pager(PagingConfig(6, 2)) {
+        return Pager(PagingConfig(pageSize = 6, prefetchDistance = 2)) {
             userPagingSource
         }.flow
     }
