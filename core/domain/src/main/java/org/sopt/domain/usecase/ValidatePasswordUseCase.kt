@@ -1,13 +1,12 @@
 package org.sopt.domain.usecase
 
 import org.sopt.model.ValidateResult
-import org.sopt.model.getResult
 import javax.inject.Inject
 
 class ValidatePasswordUseCase @Inject constructor() {
     operator fun invoke(password: String): ValidateResult {
         if (password.isBlank()) return ValidateResult.EmptyError
-        return getResult(passwordPattern.matches(password))
+        return ValidateResult.getResult(passwordPattern.matches(password))
     }
 
     companion object {

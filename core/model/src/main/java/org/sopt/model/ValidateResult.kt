@@ -4,6 +4,8 @@ sealed class ValidateResult {
     data object EmptyError : ValidateResult()
     data object Error : ValidateResult()
     data object Success : ValidateResult()
-}
 
-fun getResult(isValid: Boolean) = if (isValid) ValidateResult.Success else ValidateResult.Error
+    companion object{
+        fun getResult(isValid: Boolean) = if (isValid) Success else Error
+    }
+}
