@@ -13,12 +13,15 @@ class UserPagingSource @Inject constructor(
     private val reqresApi: ReqresApi,
 ) : PagingSource<Int, ReqresUser>() {
     override fun getRefreshKey(state: PagingState<Int, ReqresUser>): Int? {
-        return state.anchorPosition
+        return state.anchorPosition?.let {
+            state.closestPageToPosition(it)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
+        }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ReqresUser> {
         return try {
-            val currentPage = params.key ?: 1
+            val currentPage = params.key ?: INITIAL_KEY
             val users = toReqresUser(
                 reqresApi.getUsers(
                     currentPage
@@ -27,7 +30,7 @@ class UserPagingSource @Inject constructor(
 
             LoadResult.Page(
                 data = users,
-                prevKey = if (currentPage == 1) null else currentPage - 1,
+                prevKey = if (currentPage == INITIAL_KEY) null else currentPage - 1,
                 nextKey = if (users.isEmpty()) null else currentPage + 1
             )
         } catch (exception: IOException) {
@@ -35,5 +38,9 @@ class UserPagingSource @Inject constructor(
         } catch (exception: HttpException) {
             return LoadResult.Error(exception)
         }
+    }
+
+    companion object {
+        private const val INITIAL_KEY = 1
     }
 }
