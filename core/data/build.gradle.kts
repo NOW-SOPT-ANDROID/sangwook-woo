@@ -15,5 +15,4 @@ dependencies {
     implementation(projects.core.network)
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.androidx.paging)
 }
