@@ -22,5 +22,5 @@ class AuthInterceptor @Inject constructor(
     private fun handleRequest(originalRequest: Request) =
         originalRequest.newBuilder().addHeader("memberId",
             runBlocking { userPreferencesDataSource.userData.first().memberId.toString() }
-        ).addHeader("Accept-Encoding", "identity").build()
+        ).build()
 }

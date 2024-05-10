@@ -22,7 +22,7 @@ fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     label: String,
 ) {
-    val postState = viewModel.userState.collectAsLazyPagingItems()
+    val postState = viewModel.users.collectAsLazyPagingItems()
 
     HomeScreen(
         modifier = modifier,
@@ -45,8 +45,7 @@ fun HomeScreen(
                 .fillMaxSize(),
             state = listState
         ) {
-            items(postItem.itemCount)
-            { index ->
+            items(postItem.itemCount) { index ->
                 postItem[index]?.let { reqres ->
                     ReqresContainer(
                         modifier = Modifier.animateItemPlacement(

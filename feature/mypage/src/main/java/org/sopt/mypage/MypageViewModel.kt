@@ -9,6 +9,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import org.sopt.domain.repo.AuthRepository
+import org.sopt.model.exception.ApiError
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,8 +24,8 @@ class MypageViewModel @Inject constructor(
 
     private fun getUserInfo() = intent {
         authRepository.getUserinfo().onSuccess {
-            if (it == null) return@intent
-            reduce { state.copy(nickname = it.nickname, phone = it.phone) }
+            if (it.data == null) return@intent
+            reduce { state.copy(nickname = it.data!!.nickname, phone = it.data!!.phone) }
         }
     }
 

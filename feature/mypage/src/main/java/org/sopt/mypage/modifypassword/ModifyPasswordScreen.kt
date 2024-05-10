@@ -30,9 +30,9 @@ import org.sopt.designsystem.component.textfield.RegularTextField
 
 @Composable
 fun ModifyPasswordRoute(
+    navigateMypage: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ModifyPasswordViewModel = hiltViewModel(),
-    navigateMypage: () -> Unit,
 ) {
     val state by viewModel.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }

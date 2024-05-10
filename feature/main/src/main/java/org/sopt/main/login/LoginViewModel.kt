@@ -11,6 +11,7 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.viewmodel.container
 import org.sopt.domain.repo.AuthRepository
 import org.sopt.main.login.navigation.LoginRoute
+import org.sopt.model.exception.ApiError
 import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
@@ -41,13 +42,13 @@ class LoginViewModel @Inject constructor(
             id = state.id,
             pw = state.password
         ).onSuccess {
-            if (it.code !in 200..299) {
+            postSideEffect(LoginSideEffect.LoginSuccess)
+        }.onFailure {
+            if(it is ApiError){
                 postSideEffect(LoginSideEffect.showSnackbar(it.message))
             } else {
-                postSideEffect(LoginSideEffect.LoginSuccess)
+                postSideEffect(LoginSideEffect.showSnackbar("로그인 실패"))
             }
-        }.onFailure {
-            Log.e("throwable", it.toString())
         }
     }
 

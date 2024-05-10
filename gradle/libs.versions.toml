@@ -13,7 +13,6 @@ material = "1.11.0"
 constraintlayout = "2.1.4"
 firebase-bom = "32.7.0"
 crashlytics = "2.9.9"
-
 compose-compiler = "1.5.1"
 compose-bom = "2024.03.00"
 compose-material3 = "1.2.0-alpha07"

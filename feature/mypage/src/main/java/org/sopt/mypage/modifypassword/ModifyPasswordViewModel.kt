@@ -1,6 +1,5 @@
 package org.sopt.mypage.modifypassword
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
@@ -9,6 +8,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.viewmodel.container
 import org.sopt.domain.repo.AuthRepository
+import org.sopt.model.exception.ApiError
 import org.sopt.ui.orbit.updateState
 import javax.inject.Inject
 
@@ -25,17 +25,15 @@ class ModifyPasswordViewModel @Inject constructor(
             state.previousPassword,
             state.newPassword,
             state.newPasswordVerification
-        )
-            .onSuccess {
-                if (it.code !in 200..299) {
-                    postSideEffect(ModifyPasswordSideEffect.ShowSnackbar(it.message))
-                } else {
-                    postSideEffect(ModifyPasswordSideEffect.ModifySuccess)
-                }
+        ).onSuccess {
+            postSideEffect(ModifyPasswordSideEffect.ModifySuccess)
+        }.onFailure {
+            if (it is ApiError) {
+                postSideEffect(ModifyPasswordSideEffect.ShowSnackbar(it.message))
+            } else {
+                postSideEffect(ModifyPasswordSideEffect.ShowSnackbar("변경 실패"))
             }
-            .onFailure {
-                Log.e("error", it.message.toString())
-            }
+        }
     }
 
     fun updatePreviousPassword(query: String) = updateState {

@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import org.sopt.network.api.AuthApi
 import org.sopt.network.api.ReqresApi
 import retrofit2.Retrofit
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -15,10 +16,10 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideAuthService(@Auth retrofit: Retrofit): AuthApi =
-        retrofit.create(AuthApi::class.java)
+        retrofit.create()
 
     @Provides
     @Singleton
     fun provideReqresService(@Reqres retrofit: Retrofit): ReqresApi =
-        retrofit.create(ReqresApi::class.java)
+        retrofit.create()
 }

@@ -16,6 +16,7 @@ import org.sopt.domain.usecase.ValidatePasswordUseCase
 import org.sopt.domain.usecase.ValidatePhoneNumberUseCase
 import org.sopt.model.Member
 import org.sopt.model.ValidateResult
+import org.sopt.model.exception.ApiError
 import javax.inject.Inject
 
 @OptIn(OrbitExperimental::class)
@@ -36,13 +37,13 @@ class SignupViewModel @Inject constructor(
 
         authRepository.postSignup(member, state.password)
             .onSuccess {
-                if (it.code !in 200..299) {
-                    postSideEffect(SignupSideEffect.ShowSnackbar(it.message))
-                } else {
-                    postSideEffect(SignupSideEffect.SignupSuccess)
-                }
+                postSideEffect(SignupSideEffect.SignupSuccess)
             }.onFailure {
-                Log.e("signup", it.message.toString())
+                if(it is ApiError){
+                    postSideEffect(SignupSideEffect.ShowSnackbar(it.message))
+                }else{
+                    postSideEffect(SignupSideEffect.ShowSnackbar("회원가입 실패"))
+                }
             }
     }
 
