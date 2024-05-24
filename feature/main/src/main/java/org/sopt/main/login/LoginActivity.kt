@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
 import org.sopt.designsystem.R
@@ -26,6 +27,17 @@ class LoginActivity : AppCompatActivity() {
         initSignupButtonClickListener()
         initLoginButtonClickListener()
         collectState()
+        initValueChangedListener()
+    }
+
+    private fun initValueChangedListener() {
+        binding.etLoginId.doAfterTextChanged {
+            viewModel.updateId(it.toString())
+        }
+
+        binding.etLoginPw.doAfterTextChanged {
+            viewModel.updatePw(it.toString())
+        }
     }
 
     private fun initSignupButtonClickListener() {
@@ -36,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initLoginButtonClickListener() {
         binding.btnLoginLogin.setOnClickListener {
-            viewModel.login(binding.etLoginId.text.toString(), binding.etLoginPw.text.toString())
+            viewModel.login()
         }
     }
 
@@ -47,9 +59,7 @@ class LoginActivity : AppCompatActivity() {
     private fun handleSideEffect(sideEffect: LoginSideEffect) {
         when (sideEffect) {
             LoginSideEffect.NavigateToSignUp -> {
-                Intent(this, SignupActivity::class.java).let {
-                    startActivity(it)
-                }
+                startActivity(Intent(this, SignupActivity::class.java))
             }
 
             LoginSideEffect.LoginSuccess -> {

@@ -9,5 +9,15 @@
         android:id="@+id/navigation_mypage"
         android:name="org.sopt.mypage.MypageFragment"
         android:label="fragment_mypage"
-        tools:layout="@layout/fragment_mypage" />
+        tools:layout="@layout/fragment_mypage" >
+        <action
+            android:id="@+id/action_navigation_mypage_to_navigation_modify_password"
+            app:destination="@id/navigation_modify_password" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_modify_password"
+        android:name="org.sopt.mypage.modifypassword.ModifyPasswordFragment"
+        android:label="fragment_modify_password"
+        tools:layout="@layout/fragment_modify_password" />
 </navigation>

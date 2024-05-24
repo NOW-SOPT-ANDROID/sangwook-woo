@@ -9,7 +9,7 @@ data class HomeState(
     val registeredName: String = "",
 )
 
-sealed interface HomeSideEffect{
-    data class showDeleteDialog(val id: Int): HomeSideEffect
-    data object showAddFriendBottomSheet: HomeSideEffect
+sealed interface HomeSideEffect {
+    data class showDeleteDialog(val id: Int) : HomeSideEffect
+    data object showAddFriendBottomSheet : HomeSideEffect
 }

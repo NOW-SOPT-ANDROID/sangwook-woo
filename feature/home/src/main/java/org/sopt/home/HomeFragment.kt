@@ -2,85 +2,38 @@ package org.sopt.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ConcatAdapter
+import androidx.lifecycle.flowWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import org.orbitmvi.orbit.viewmodel.observe
-import org.sopt.designsystem.dialog.AlertDialogFragment
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.sopt.home.adapter.HomeAdapter
-import org.sopt.home.adapter.HomeHeaderAdapter
-import org.sopt.home.add.AddFriendBottomSheetFragment
 import org.sopt.home.databinding.FragmentHomeBinding
-import org.sopt.model.Friend
 import org.sopt.ui.base.BindingFragment
+import org.sopt.ui.fragment.viewLifeCycle
+import org.sopt.ui.fragment.viewLifeCycleScope
 
 @AndroidEntryPoint
 class HomeFragment : BindingFragment<FragmentHomeBinding>({ FragmentHomeBinding.inflate(it) }) {
     private lateinit var homeAdapter: HomeAdapter
-    private lateinit var homeHeaderAdapter: HomeHeaderAdapter
     private val viewModel by viewModels<HomeViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initAdapter()
-        initListener()
-        collectState()
+
+        initHomeAdapter()
+        initUserListStateObserver()
     }
 
-    private fun initListener() {
-        binding.etHomeTopSearch.doAfterTextChanged {
-            viewModel.updateQuery(it.toString())
-        }
-        binding.fabHome.setOnClickListener {
-            viewModel.addFriend()
-        }
-    }
-
-    private fun collectState() {
-        viewModel.observe(lifecycleOwner = this, state = ::render, sideEffect = ::handleSideEffect)
-    }
-
-    private fun render(homeState: HomeState) {
-        homeAdapter.submitList(homeState.friendList)
-        homeHeaderAdapter.submitList(
-            mutableListOf(
-                Friend(
-                    id = null,
-                    name = homeState.registeredName,
-                    hobby = homeState.registeredHobby
-                )
-            )
+    private fun initHomeAdapter() {
+        homeAdapter = HomeAdapter(
         )
-        viewModel.updateQuery(homeState.query)
+        binding.rvHome.adapter = homeAdapter
     }
 
-    private fun handleSideEffect(sideEffect: HomeSideEffect) {
-        when (sideEffect) {
-            HomeSideEffect.showAddFriendBottomSheet -> {
-                AddFriendBottomSheetFragment.newInstance {
-                    viewModel.insertFriend(it)
-                }.show(parentFragmentManager, this.tag)
-            }
-
-            is HomeSideEffect.showDeleteDialog -> {
-                AlertDialogFragment.newInstance(
-                    "삭제?",
-                    "아니요",
-                    "예",
-                    {},
-                    { viewModel.deleteFriend(sideEffect.id) },
-                ).show(parentFragmentManager, this.tag)
-            }
-        }
-    }
-
-    private fun initAdapter() {
-        homeAdapter = HomeAdapter {
-            viewModel.showDeleteDialog(it.id)
-        }
-        homeHeaderAdapter = HomeHeaderAdapter()
-        val combineAdapter = ConcatAdapter(homeHeaderAdapter, homeAdapter)
-        binding.rvHome.adapter = combineAdapter
+    private fun initUserListStateObserver() {
+        viewModel.userState.flowWithLifecycle(viewLifeCycle).onEach { state ->
+            homeAdapter.submitData(state)
+        }.launchIn(viewLifeCycleScope)
     }
 
 }

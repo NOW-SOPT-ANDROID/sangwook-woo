@@ -13,15 +13,6 @@ android {
         versionName = "1.0"
     }
     viewBinding.enable = true
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-    }
 }
 
 dependencies {
@@ -30,6 +21,6 @@ dependencies {
     implementation(projects.core.database)
     implementation(projects.core.common)
     implementation(projects.core.data)
-
+    implementation(projects.core.network)
     implementation(projects.feature.main)
 }

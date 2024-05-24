@@ -1,88 +1,45 @@
 package org.sopt.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
-import org.orbitmvi.orbit.viewmodel.container
-import org.sopt.domain.repo.SoptRepository
-import org.sopt.domain.usecase.GetSoptUseCase
-import org.sopt.domain.usecase.GetUserDataUseCase
-import org.sopt.model.Friend
-import org.sopt.ui.orbit.updateState
+import org.sopt.domain.repo.UserRepository
+import org.sopt.model.ReqresUser
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getSoptUseCase: GetSoptUseCase,
-    private val getUserDataUseCase: GetUserDataUseCase,
-    private val soptRepository: SoptRepository,
-) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
-    override val container: Container<HomeState, HomeSideEffect> = container(HomeState())
+    private val userRepository: UserRepository,
+) : ViewModel() {
+    private val _userState: MutableStateFlow<PagingData<ReqresUser>> =
+        MutableStateFlow(PagingData.empty())
+    val userState: StateFlow<PagingData<ReqresUser>> = _userState.asStateFlow()
 
     init {
-        getUserData()
-        intent {
-            container.stateFlow
-                .flatMapLatest {
-                    getSopt(it.query)
-                }
-                .collect {
-                    reduce {
-                        state.copy(
-                            friendList = (listOf(
-                                Friend(
-                                    id = 0,
-                                    name = state.registeredName,
-                                    hobby = state.registeredHobby
-                                )
-                            ) + it).toImmutableList()
-                        )
-                    }
-                }
+        viewModelScope.launch {
+            getUsers()
         }
     }
 
-    private fun getUserData() = intent {
-        getUserDataUseCase().collect {
-            reduce {
-                state.copy(
-                    registeredHobby = it.hobby,
-                    registeredName = it.name,
-                )
+    private suspend fun getUsers() {
+        userRepository.getUser()
+            .distinctUntilChanged()
+            .cachedIn(viewModelScope)
+            .catch { t ->
+                Log.e("error", t.message.toString())
             }
-        }
-    }
-
-    private fun getSopt(query: String) = getSoptUseCase(param = GetSoptUseCase.Param(query = query))
-
-
-    fun addFriend() = intent {
-        postSideEffect(HomeSideEffect.showAddFriendBottomSheet)
-    }
-
-    fun insertFriend(friend: Friend) = viewModelScope.launch {
-        soptRepository.addFriend(friend)
-    }
-
-    fun updateQuery(query: String) = updateState {
-        copy(query = query)
-    }
-
-    fun showDeleteDialog(id: Int?) = intent {
-        if (id != null) {
-            postSideEffect(HomeSideEffect.showDeleteDialog(id))
-        }
-    }
-
-    fun deleteFriend(id: Int) = viewModelScope.launch {
-        soptRepository.deleteFriendById(id)
+            .collectLatest {
+                _userState.emit(it)
+            }
     }
 }

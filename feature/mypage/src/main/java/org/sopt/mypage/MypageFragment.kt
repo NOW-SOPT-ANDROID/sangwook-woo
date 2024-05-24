@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
 import org.sopt.common.intentprovider.IntentProvider
@@ -49,8 +50,8 @@ class MypageFragment : Fragment() {
             viewModel.logout()
         }
 
-        binding.btnMypageWithdraw.setOnClickListener {
-            viewModel.signout()
+        binding.btnMypageModifyPassword.setOnClickListener {
+            viewModel.modifyPassword()
         }
     }
 
@@ -59,8 +60,8 @@ class MypageFragment : Fragment() {
     }
 
     private fun render(mypageState: MypageState) {
-        binding.tvMypageName.text = mypageState.name
-        binding.tvMypageHobby.text = mypageState.hobby
+        binding.tvMypageName.text = mypageState.nickname
+        binding.tvMypagePhone.text = mypageState.phone
     }
 
     private fun handleSideEffect(sideEffect: MypageSideEffect) {
@@ -70,9 +71,8 @@ class MypageFragment : Fragment() {
                 requireActivity().finish()
             }
 
-            MypageSideEffect.WithdrawSuccess -> {
-                startActivity(intentProvider.getIntent())
-                requireActivity().finish()
+            MypageSideEffect.NavigateModifyPassword -> {
+                findNavController().navigate(R.id.action_navigation_mypage_to_navigation_modify_password)
             }
         }
     }

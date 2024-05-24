@@ -30,7 +30,7 @@ class SignupActivity : AppCompatActivity() {
             etSignupId.doAfterTextChanged { viewModel.updateId(it.toString()) }
             etSignupPw.doAfterTextChanged { viewModel.updatePw(it.toString()) }
             etSignupName.doAfterTextChanged { viewModel.updateName(it.toString()) }
-            etSignupHobby.doAfterTextChanged { viewModel.updateHobby(it.toString()) }
+            etSignupHobby.doAfterTextChanged { viewModel.updatePhone(it.toString()) }
         }
     }
 
@@ -50,7 +50,7 @@ class SignupActivity : AppCompatActivity() {
                 finish()
             }
 
-            is SignupSideEffect.showSnackbar -> {
+            is SignupSideEffect.ShowSnackbar -> {
                 snackBar(binding.root) { sideEffect.message }
             }
         }

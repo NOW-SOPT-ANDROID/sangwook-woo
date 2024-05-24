@@ -12,6 +12,7 @@ class UnitTestPlugin : Plugin<Project> {
                 "testImplementation"(libs.findLibrary("kotlinx.coroutines.test").get())
                 "testImplementation"(libs.findLibrary("mockito").get())
                 "testImplementation"(libs.findLibrary("junit").get())
+                "testImplementation"(libs.findLibrary("robolectric").get())
             }
 
             extensions.configure<LibraryExtension> {
