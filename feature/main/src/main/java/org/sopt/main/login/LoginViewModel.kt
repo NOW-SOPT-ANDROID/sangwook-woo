@@ -53,6 +53,8 @@ class LoginViewModel @Inject constructor(
     }
 
 
-    fun updateId(id: String) = updateState { copy(id = id) }
+    fun updateId(id: String) = updateState {
+        copy(id = id)
+    }
     fun updatePw(pw: String) = updateState { copy(password = pw) }
 }

@@ -113,6 +113,7 @@ fun SignupScreen(
                 Spacer(modifier = Modifier.height(70.dp))
 
                 RegularTextField(
+                    errorState = state.idValidation,
                     modifier = Modifier.padding(end = 20.dp),
                     title = "ID",
                     textStyle = MaterialTheme.typography.headlineSmall,
@@ -124,6 +125,7 @@ fun SignupScreen(
                 Spacer(modifier = Modifier.height(70.dp))
 
                 RegularTextField(
+                    errorState = state.passwordValidation,
                     modifier = Modifier.padding(end = 20.dp),
                     title = "PW",
                     textStyle = MaterialTheme.typography.headlineSmall,
@@ -135,6 +137,7 @@ fun SignupScreen(
                 Spacer(modifier = Modifier.height(70.dp))
 
                 RegularTextField(
+                    errorState = state.nameValidation,
                     modifier = Modifier.padding(end = 20.dp),
                     title = "이름",
                     textStyle = MaterialTheme.typography.headlineSmall,
@@ -146,6 +149,7 @@ fun SignupScreen(
                 Spacer(modifier = Modifier.height(70.dp))
 
                 RegularTextField(
+                    errorState = state.phoneValidation,
                     modifier = Modifier.padding(end = 20.dp),
                     title = "휴대폰",
                     textStyle = MaterialTheme.typography.headlineSmall,
