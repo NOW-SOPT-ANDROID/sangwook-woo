@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.sopt.now.compose.SoptApp"
         android:allowBackup="true"
@@ -12,12 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NOWSOPTAndroid"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name="org.sopt.main.navigator.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.NOWSOPTAndroid" >
+            android:theme="@style/Theme.NOWSOPTAndroid">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,13 +1,10 @@
 package org.sopt.home
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,28 +13,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.sopt.designsystem.R
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeFriendContainer(
-    title: String,
+fun ReqresContainer(
+    email: String? = "",
     containerHeight: Dp,
-    modifier: Modifier = Modifier,
+    firstName: String? = "",
+    lastName: String? = "",
+    imageUri: String? = "",
     id: Int? = 0,
-    @DrawableRes imageId: Int = R.drawable.ic_launcher_background,
-    subTitle: String = "",
-    onClick: () -> Unit = {},
-    onLongClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
-    val painter = painterResource(id = imageId)
+    val context = LocalContext.current
+    val imageRequest = ImageRequest.Builder(context)
+        .data(imageUri)
+        .memoryCacheKey(imageUri)
+        .diskCacheKey(imageUri)
+        .build()
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -45,37 +46,41 @@ fun HomeFriendContainer(
                 if (id == 0) 100.dp else containerHeight
             )
             .background(Color.White)
-            .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 10.dp)
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongClick,
-            ),
+            .padding(start = 20.dp, end = 20.dp, top = 10.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(painter = painter, "")
+        AsyncImage(
+            model = imageRequest,
+            contentDescription = "Profile Image",
+            modifier = modifier.fillMaxHeight(),
+            contentScale = ContentScale.FillHeight,
+        )
         Text(
             modifier = modifier
                 .padding(start = 20.dp),
-            text = title,
-            fontSize = 20.sp,
+            text = "$firstName $lastName",
+            fontSize = 16.sp,
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = subTitle,
-            fontSize = 16.sp
+            text = "$email",
+            fontSize = 10.sp
         )
     }
 }
 
 @Composable
 @Preview
-fun HomeFriendContainerPreview() {
+fun ReqresContainerPreview() {
     NOWSOPTAndroidTheme {
         Column {
-            HomeFriendContainer(
-                containerHeight = 80.dp,
-                title = "우상욱",
-                subTitle = "놀기"
+            ReqresContainer(
+                email = "michael.lawson@reqres.in",
+                firstName = "john",
+                lastName = "hi",
+                imageUri = "https://reqres.in/img/faces/7-image.jpg",
+                id = 1,
+                containerHeight = 80.dp
             )
         }
     }

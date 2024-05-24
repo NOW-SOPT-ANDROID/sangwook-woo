@@ -7,18 +7,20 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import org.sopt.mypage.MypageRoute
 
-fun NavController.navigateMypage(navOptions: NavOptions) {
+fun NavController.navigateMypage(navOptions: NavOptions? = null) {
     navigate(MypageRoute.route, navOptions)
 }
 
 fun NavGraphBuilder.MypageNavGraph(
     modifier: Modifier = Modifier,
-    navigateToLoginScreen: () -> Unit,
+    navigateToLoginScreen: (Boolean) -> Unit,
+    navigateToModifyPassword: () -> Unit,
 ) {
     composable(route = MypageRoute.route) { navBackStackEntry ->
         MypageRoute(
             modifier = modifier,
-            navigateToLoginScreen = navigateToLoginScreen
+            navigateToLoginScreen = navigateToLoginScreen,
+            navigateToModifyPassword = navigateToModifyPassword
         )
     }
 }

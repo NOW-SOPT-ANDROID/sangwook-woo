@@ -16,6 +16,7 @@ internal class DataPlugin : Plugin<Project> {
             dependencies {
                 "implementation"(project(":core:model"))
                 "implementation"(libs.findBundle("coroutine").get())
+                "implementation"(libs.findLibrary("androidx-paging").get())
             }
         }
     }

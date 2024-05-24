@@ -12,7 +12,7 @@ fun NavController.navigateSignup() {
 
 fun NavGraphBuilder.signupNavGraph(
     modifier: Modifier = Modifier,
-    navigateLogin: () -> Unit = {},
+    navigateLogin: (Boolean) -> Unit = {},
 ) {
     composable(route = SignupRoute.route) { navBackStackEntry ->
         SignupRoute(

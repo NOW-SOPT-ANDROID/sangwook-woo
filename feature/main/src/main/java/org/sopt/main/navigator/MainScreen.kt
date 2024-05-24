@@ -26,10 +26,12 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
 import kotlinx.collections.immutable.toImmutableList
 import org.sopt.home.navigation.homeNavGraph
 import org.sopt.main.login.navigation.loginNavGraph
 import org.sopt.main.signup.navigation.signupNavGraph
+import org.sopt.mypage.modifypassword.navigation.modifyPasswordNavGraph
 import org.sopt.mypage.navigation.MypageNavGraph
 import org.sopt.search.navigation.searchNavGraph
 
@@ -49,17 +51,45 @@ fun MainScreen(
                 loginNavGraph(
                     modifier = modifier.padding(innerPadding),
                     navigateSignup = navigator::navigateSignup,
-                    navigateHome = navigator::navigateHome,
+                    navigateHome = {
+                        navigator.navigateHome(
+                            navOptions {
+                                popUpTo(navigator.navController.graph.startDestinationId) {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
+                        )
+                    },
                 )
 
                 signupNavGraph(
                     modifier = modifier.padding(innerPadding),
-                    navigateLogin = navigator::navigateLogin
+                    navigateLogin = {
+                        navigator.navigateLogin(it)
+                    }
                 )
 
                 MypageNavGraph(
                     modifier = modifier.padding(innerPadding),
-                    navigateToLoginScreen = navigator::navigateLogin
+                    navigateToLoginScreen = {
+                        navigator.navigateLogin(it)
+                    },
+                    navigateToModifyPassword = navigator::navigateModifyPassword
+                )
+
+                modifyPasswordNavGraph(
+                    modifier = modifier.padding(innerPadding),
+                    navigateMypage = {
+                        navigator.navigateMypage(
+                            navOptions {
+                                popUpTo(navigator.navController.graph.startDestinationId) {
+                                    inclusive = true
+                                }
+                                launchSingleTop = true
+                            }
+                        )
+                    }
                 )
 
                 homeNavGraph(
