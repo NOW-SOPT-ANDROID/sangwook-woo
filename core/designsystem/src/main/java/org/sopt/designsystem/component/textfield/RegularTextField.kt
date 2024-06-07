@@ -24,10 +24,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.designsystem.ui.theme.NOWSOPTAndroidTheme
+import org.sopt.model.ValidateResult
 
 @Composable
 fun RegularTextField(
     modifier: Modifier = Modifier,
+    errorState: ValidateResult = ValidateResult.EmptyError,
     placeholder: String = "",
     value: String = "",
     title: String = "",
@@ -85,7 +87,17 @@ fun RegularTextField(
                     Spacer(modifier = Modifier.height(2.dp))
                     HorizontalDivider(
                         thickness = 2.dp,
-                        color = Color.DarkGray,
+                        color = when(errorState){
+                            ValidateResult.EmptyError -> {
+                                Color.DarkGray
+                            }
+                            ValidateResult.Error -> {
+                                Color.Red
+                            }
+                            ValidateResult.Success -> {
+                                Color.DarkGray
+                            }
+                        }
                     )
                 }
             }
