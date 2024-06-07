@@ -37,6 +37,7 @@ class SignupActivity : AppCompatActivity() {
     private fun initSignupButtonClickListener() {
         binding.btnSignupSignup.setOnClickListener {
             viewModel.signup()
+            
         }
     }
 
